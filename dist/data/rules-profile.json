@@ -1,0 +1,17 @@
+{
+  "id": "classic-observed-v1",
+  "rounds": 10,
+  "mistakePenaltyMs": 5000,
+  "answerLimitMs": null,
+  "counterMax": 99,
+  "initialCountdownStepMs": 1000,
+  "firstPuzzleCountdownStepMs": 1000,
+  "laterPuzzleCountdownStepMs": 667,
+  "preRevealMs": 500,
+  "revealStepMs": 83.333333,
+  "resultHoldMs": 500,
+  "endOverlayMs": 2000,
+  "tiePolicy": "equal rounded centisecond adjusted totals",
+  "countMetric": "box-entities",
+  "notes": "Penalty confirmed; durations are recording-based approximation defaults; tie, overflow, indefinite wait and pause policy are browser decisions."
+}

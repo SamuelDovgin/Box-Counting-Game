@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Box Counting level pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "title", "provenance", "rulesProfile", "levels"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "id": {"type": "string", "minLength": 1, "maxLength": 80},
+    "title": {"type": "string", "minLength": 1, "maxLength": 80},
+    "provenance": {"type": "string", "maxLength": 500},
+    "rulesProfile": {"type": "string", "maxLength": 80},
+    "levels": {"type": "array", "minItems": 1, "maxItems": 50, "items": {"$ref": "#/$defs/level"}}
+  },
+  "$defs": {
+    "box": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "x", "y", "z", "w", "d", "h"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 80},
+        "x": {"type": "integer", "minimum": 0, "maximum": 4},
+        "y": {"type": "integer", "minimum": 0, "maximum": 4},
+        "z": {"type": "integer", "minimum": 0, "maximum": 3},
+        "w": {"type": "integer", "minimum": 1, "maximum": 5},
+        "d": {"type": "integer", "minimum": 1, "maximum": 5},
+        "h": {"type": "integer", "minimum": 1, "maximum": 4}
+      }
+    },
+    "offset": {
+      "type": "object", "additionalProperties": false, "required": ["x", "y"],
+      "properties": {"x": {"type": "number", "minimum": -1600, "maximum": 1600}, "y": {"type": "number", "minimum": -1000, "maximum": 1000}}
+    },
+    "presentation": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["kind", "durationMs"], "properties": {"kind": {"const": "static"}, "durationMs": {"type": "integer", "minimum": 100, "maximum": 10000}}},
+        {"type": "object", "additionalProperties": false, "required": ["kind", "durationMs", "from", "to"], "properties": {"kind": {"const": "travel"}, "durationMs": {"type": "integer", "minimum": 300, "maximum": 10000}, "from": {"$ref": "#/$defs/offset"}, "to": {"$ref": "#/$defs/offset"}}}
+      ]
+    },
+    "level": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "boardSize", "provenance", "boxes", "presentation", "revealOrder"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 80},
+        "name": {"type": "string", "minLength": 1, "maxLength": 80},
+        "boardSize": {"const": 5},
+        "provenance": {"type": "string", "maxLength": 500},
+        "boxes": {"type": "array", "minItems": 1, "maxItems": 99, "items": {"$ref": "#/$defs/box"}},
+        "presentation": {"$ref": "#/$defs/presentation"},
+        "revealOrder": {"type": "array", "minItems": 1, "maxItems": 99, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}

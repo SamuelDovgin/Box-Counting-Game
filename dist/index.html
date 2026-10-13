@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f7">
+  <meta name="description" content="Two-player box counting on one keyboard, inspired by the Nintendo Switch memory challenge.">
+  <title>Box Counting — two players, one keyboard</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="site-header">
+      <div class="wordmark"><span class="wordmark-cube" aria-hidden="true"></span><span>BOX COUNTING</span></div>
+      <div id="header-detail" class="header-detail">TWO PLAYERS · ONE KEYBOARD</div>
+      <nav id="main-nav" aria-label="Game navigation"><button class="nav-button" data-action="menu">Home</button><button class="nav-button" data-action="settings">Settings</button></nav>
+    </header>
+    <section class="play-region" aria-label="Box Counting game">
+      <div id="stage" class="stage" tabindex="-1">
+        <svg id="scene" viewBox="0 0 1280 720" role="img" aria-label="Box counting board"></svg>
+        <div id="overlay" class="overlay"></div>
+      </div>
+    </section>
+    <div id="play-controls" aria-label="Game controls"></div>
+    <footer class="site-footer">
+      <span>Count the separate boxes. Every box matters, even a large one.</span>
+      <span>ESC <span class="footer-separator">/</span> PAUSE</span>
+    </footer>
+  </main>
+  <div id="toast" role="status" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

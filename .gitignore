@@ -1,0 +1,5 @@
+.qa/
+__pycache__/
+references/videos/*.info.json
+references/frames/hadski/
+references/frames/official1/
