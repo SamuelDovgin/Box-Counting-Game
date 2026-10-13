@@ -8,14 +8,14 @@ Keep the board five by five for the reference pack. Support vertical stacks up t
 
 ## Starter pack
 
-The supplied JSON pack contains ten authored reconstructions based on the observed sequence. Counts and structural categories match V3; coordinates, motion endpoints, and precise exposures are reconstruction choices, not recovered Nintendo level files. Keep a provenance label on the pack and each level.
+The supplied JSON pack contains ten authored reconstructions based on the observed sequence. Counts, structures, and revised grid coordinates follow the decoded V3 Watch/Reveal frames; motion endpoints and precise exposures remain approximations, not recovered Nintendo level files. Keep a provenance label on the pack and each level.
 
 | Round | Pattern | Objects | Presentation |
 | --- | --- | --- | --- |
 | 1 | Pair and separated singleton | 3 | Static, 750 ms |
 | 2 | Five connected boxes plus one | 6 | Static, 750 ms |
 | 3 | Two two-high stacks plus one | 5 | Static, 750 ms |
-| 4 | Four in a line plus branch | 5 | Diagonal travel, 1200 ms path |
+| 4 | Three in a line, gap, and offset pair | 5 | Diagonal travel, 1200 ms path |
 | 5 | One broad box plus three unit boxes | 4 | Static, 750 ms |
 | 6 | Four-high stack, two-high stack, singleton | 7 | Diagonal travel, 1200 ms path |
 | 7 | Two separated rows of four | 8 | Static, 750 ms |
@@ -45,7 +45,7 @@ Normalize geometry into an ordered signature to detect repeats. Avoid exact repe
 
 Keep the ten observed-style categories as the Classic progression. For custom generation expose Gentle, Standard, and Intense presets that adjust exposure, travel, stack complexity, and count ranges together. Exact values require playtesting; they are not original difficulty names. Keep both players on identical layouts and timings. Disable adaptive changes during a Classic match. Practice may let the user choose a family and exposure directly.
 
-The release implements the ten-level Classic pack, generated Quick/Full matches, Endless solo practice, per-puzzle practice, and Custom packs. Pointer count/submit buttons supplement the keyboard. Three named fixed 20-level packs and direct number entry remain future ideas. A shuffled custom pack should preserve the user’s selected order unless Shuffle is explicitly enabled.
+The release implements the ten-level Classic pack, generated Quick/Full matches, Endless solo practice, per-puzzle practice, Custom packs, Video Challenge, Pattern Ladder, Motion Gauntlet, and Endless Duel. Pointer count/submit buttons supplement the keyboard. Three named fixed 20-level packs and direct number entry remain future ideas. A shuffled custom pack should preserve the user’s selected order unless Shuffle is explicitly enabled.
 
 ## Editor workflow
 

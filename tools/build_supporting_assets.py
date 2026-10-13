@@ -1,30 +1,10 @@
 from pathlib import Path
 import json
 root=Path(__file__).resolve().parents[1]
-def box(i,x,y,z=0,w=1,d=1,h=1): return dict(id=f'b{i}',x=x,y=y,z=z,w=w,d=d,h=h)
-def units(coords): return [box(i+1,*p) for i,p in enumerate(coords)]
-sets=[
- units([(1,2),(2,2),(3,0)]),
- units([(1,1),(2,1),(1,2),(2,2),(1,3),(4,1)]),
- units([(0,3,0),(0,3,1),(3,0,0),(3,0,1),(0,0,0)]),
- units([(0,1),(1,1),(2,1),(3,1),(1,2)]),
- [box(1,1,1,0,2,2,1),box(2,3,1),box(3,3,2),box(4,0,3)],
- units([(0,3,z) for z in range(4)]+[(3,0,z) for z in range(2)]+[(0,0)]),
- units([(x,y) for y in [0,3] for x in range(4)]),
- units([(1,1),(1,2),(2,1)]),
- units([(1,2),(2,2),(3,0),(3,1)]),
- units([(x,y) for y in range(5) for x in range(5) if (x,y)!=(2,2)])]
-names=['Pair and singleton','Five and one','Short towers','Travelling branch','One broad box','Travelling towers','Two rows','Corner flash','Fast travelling groups','Missing center']
-levels=[]
-for i,(boxes,name) in enumerate(zip(sets,names),1):
- p={'kind':'static','durationMs':100 if i==8 else 250 if i==10 else 750}
- if i in [4,6,9]:
-  p={'kind':'travel','durationMs':700 if i==9 else 1200,'from':{'x':-1050 if i==9 else 1050,'y':-520},'to':{'x':1050 if i==9 else -1050,'y':520}}
- levels.append({'id':f'ref-{i:02d}','name':name,'boardSize':5,'provenance':'Authored reconstruction of V3 category and count; coordinates and path are approximate.','boxes':boxes,'presentation':p,'revealOrder':[b['id'] for b in boxes]})
-pack={'schemaVersion':1,'id':'reference-style-ten','title':'Reference style ten round pack','provenance':'Based on Hadski Gaming 2SR6dQM1BDc; not extracted original game data.','rulesProfile':'classic-observed-v1','levels':levels}
-(root/'data/reference-pack.json').write_text(json.dumps(pack,indent=2)+'\n')
-rules={'id':'classic-observed-v1','rounds':10,'mistakePenaltyMs':5000,'answerLimitMs':None,'counterMax':99,'initialCountdownStepMs':1000,'firstPuzzleCountdownStepMs':1000,'laterPuzzleCountdownStepMs':667,'preRevealMs':500,'revealStepMs':83.333333,'resultHoldMs':500,'endOverlayMs':2000,'tiePolicy':'equal rounded centisecond adjusted totals','countMetric':'box-entities','notes':'Penalty confirmed; durations are recording-based approximation defaults; tie, overflow, indefinite wait and pause policy are browser decisions.'}
-(root/'data/rules-profile.json').write_text(json.dumps(rules,indent=2)+'\n')
+# Canonical, manually traced data is authored in data/. Do not overwrite it.
+pack=json.loads((root/'data/reference-pack.json').read_text())
+levels=pack['levels']
+sets=[level['boxes'] for level in levels]
 # Editable SVG geometry targets, newly drawn rather than screenshots.
 def screen(mode):
  s=['<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">','<rect width="1280" height="720" fill="#f7f7f7"/>']

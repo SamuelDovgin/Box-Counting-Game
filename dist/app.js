@@ -1,24 +1,30 @@
 import {clone,DEFAULT_BINDINGS,ALTERNATE_BINDINGS,correctAnswer,keyName,validBinding,validBindings,validateLevel,normalizePack,makePack,rotateLevel,mirrorLevel} from './core.js';
-import {generateLevel,generateLevels,seededRandom} from './generator.js';
+import {generateLevel,generateLevels,generateChallenge,seededRandom} from './generator.js';
 import {GameEngine} from './engine.js';
+import {GameScene} from './scene.js';
 import {loadStore,saveStore,addHistory} from './storage.js';
 import {GameAudio} from './audio.js';
-import {esc,boardSvg,gameSvg} from './renderer.js';
+import {esc,boardSvg} from './renderer.js';
 import {renderUI,availableLevels} from './ui.js';
+import {phoneControls,TouchContacts,phoneButtonState} from './touch.js';
 
 const stage=document.querySelector('#stage'),scene=document.querySelector('#scene'),overlay=document.querySelector('#overlay'),header=document.querySelector('#header-detail'),nav=document.querySelector('#main-nav'),playControls=document.querySelector('#play-controls'),toastElement=document.querySelector('#toast');
-const audio=new GameAudio(),held=new Set();
-let screen='loading',pack,rules,engine=null,store,lastScene='',lastOverlay='',lastControls='',toastTimer,draftTimer,lastCue='',settingsBack='menu';
+const audio=new GameAudio(),held=new Set(),sceneView=new GameScene(scene),matchStatus=document.querySelector('#match-status');
+const phonePanel=document.querySelector('#phone-controls'),contacts=new TouchContacts(),coarsePointer=window.matchMedia('(pointer: coarse)');
+let lastPhoneControls='',lastPhoneState='';
+let screen='loading',pack,videoPack,rules,engine=null,store,lastOverlay='',lastControls='',toastTimer,draftTimer,lastCue='',settingsBack='menu';
 let storageWarning='';
 try{const saved=loadStore();store=saved.data;storageWarning=saved.error??'';if(saved.newUser)store.settings.reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch{store=loadStore({getItem:()=>null}).data;storageWarning='Browser storage is unavailable. You can play and export your work, but it will not survive a reload.';}
-const ui={checked:[false,false,false,false],config:null,setup:null,editor:null,captureKey:null,returnTo:null,detailRecord:null,detailsBack:'results',packDraft:null,packAddKey:'reference:0'};
+const ui={checked:[false,false,false,false],config:null,setup:null,editor:null,captureKey:null,returnTo:null,detailRecord:null,detailsBack:'results',packDraft:null,packAddKey:'reference:0',touch:false};
+function detectControls(){ui.touch=phoneControls({width:window.innerWidth,height:window.innerHeight,coarse:coarsePointer.matches,touchPoints:navigator.maxTouchPoints??0},store.settings.inputMode);}
+detectControls();
 const id=prefix=>`${prefix}-${crypto.randomUUID().slice(0,12)}`;
 const seed=()=>crypto.randomUUID().slice(0,8);
 const now=()=>performance.now();
-const context=()=>({screen,store,ui,engine,pack});
+const context=()=>({screen,store,ui,engine,pack,videoPack});
 function toast(message){clearTimeout(toastTimer);toastElement.textContent=message;toastElement.hidden=false;toastTimer=setTimeout(()=>{toastElement.hidden=true;},6000);}
 function persist(message=''){try{saveStore(store);if(message)toast(message);return true;}catch(error){toast(`Could not save: ${error.message} Your current work is still available to export.`);return false;}}
-function go(next){screen=next;held.clear();ui.captureKey=null;render();}
+function go(next){screen=next;held.clear();contacts.clear();ui.captureKey=null;render();}
 function menu(){engine=null;ui.returnTo=null;go('menu');}
 function settings(){settingsBack=screen;go('settings');}
 function checkControls(config){ui.config=config;ui.checked=[false,false,false,false];audio.unlock();go('checks');}
@@ -26,19 +32,22 @@ function baseConfig(label,mode){return {label,mode,solo:false,endless:false,leve
 function mode(modeName){
   ui.returnTo=null;
   if(modeName==='classic'){const config=baseConfig('Classic','classic');config.source='classic';config.levels=clone(pack.levels);checkControls(config);return;}
-  ui.setup={mode:modeName,players:'2',rounds:modeName==='full'?20:modeName==='quick'?5:10,source:'generated',difficulty:'standard',family:'mixed',seed:seed(),previewMs:modeName==='practice'?2500:0,answerLimitMs:0,shuffle:false,practiceLevel:'reference:0'};
+  ui.setup={mode:modeName,players:'2',rounds:modeName==='full'||modeName==='ladder'?20:modeName==='quick'?5:10,source:'generated',difficulty:['ladder','motion','duel'].includes(modeName)?'gentle':'standard',family:'mixed',seed:seed(),previewMs:modeName==='practice'?2500:0,answerLimitMs:modeName==='duel'?15000:0,shuffle:false,practiceLevel:'reference:0',duelRule:'time',timeLead:20,pointsLead:3,minRounds:5,maxRounds:0,escalate:true};
   go('setup');
 }
 function buildSetup(form){
   const values=Object.fromEntries(new FormData(form));
   const c={...ui.setup,...values,shuffle:!!form.elements.shuffle?.checked};ui.setup=c;
-  const label={quick:'Quick match',full:'Full match',endless:'Endless practice',practice:'Puzzle practice',custom:'Custom match'}[c.mode];
-  const config=baseConfig(label,c.mode);config.solo=c.mode==='endless'||c.mode==='practice'||c.players==='1';config.endless=c.mode==='endless';config.seed=String(c.seed||seed()).slice(0,80);config.difficulty=c.difficulty;config.family=c.family??'mixed';config.previewMs=Number(c.previewMs);config.answerLimitMs=c.mode==='custom'?Number(c.answerLimitMs):0;
+  const label={quick:'Quick match',full:'Full match',endless:'Endless practice',practice:'Puzzle practice',custom:'Custom match',video:'Video challenge',ladder:'Pattern ladder',motion:'Motion gauntlet',duel:'Endless duel'}[c.mode];
+  const config=baseConfig(label,c.mode);config.solo=c.mode==='endless'||c.mode==='practice'||c.players==='1';config.endless=['endless','duel'].includes(c.mode);config.seed=String(c.seed||seed()).slice(0,80);config.difficulty=c.difficulty;config.family=c.family??'mixed';config.previewMs=Number(c.previewMs);config.answerLimitMs=['custom','duel'].includes(c.mode)?Number(c.answerLimitMs):0;
+  if(c.mode==='duel'){config.solo=false;config.escalate=form.elements.escalate.checked;config.duel={rule:c.duelRule,timeLeadMs:Number(c.timeLead)*1000,pointsLead:Number(c.pointsLead),minRounds:Number(c.minRounds),maxRounds:Number(c.maxRounds)};new GameEngine(config,rules);}
   if(config.previewMs)config.assisted=true;
-  if(c.mode==='practice'){
+  if(c.mode==='video'){config.source='authored';config.levels=clone(videoPack.levels);}
+  else if(c.mode==='ladder'||c.mode==='motion'){const count=Number(c.rounds);if(!Number.isInteger(count)||count<1||count>50)throw new Error('Choose 1–50 rounds.');config.levels=generateChallenge(config.seed,count,c.mode,config.difficulty);}
+  else if(c.mode==='practice'){
     const item=availableLevels(context()).find(l=>l.key===c.practiceLevel);if(!item)throw new Error('Choose an available puzzle.');config.levels=[clone(item.level)];config.source='authored';
   }else if(c.mode==='custom'&&c.source!=='generated'){
-    const selected=c.source==='reference'?pack:store.packs.find(p=>`pack:${p.id}`===c.source);if(!selected)throw new Error('Choose an available pack.');
+    const selected=c.source==='reference'?pack:c.source==='video'?videoPack:store.packs.find(p=>`pack:${p.id}`===c.source);if(!selected)throw new Error('Choose an available pack.');
     config.levels=clone(selected.levels);config.source='authored';config.label=selected.title;
     if(c.shuffle){const rng=seededRandom(config.seed);for(let i=config.levels.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[config.levels[i],config.levels[j]]=[config.levels[j],config.levels[i]];}}
   }else if(!config.endless){const count=c.mode==='quick'?5:c.mode==='full'?20:Number(c.rounds);if(!Number.isInteger(count)||count<1||count>50)throw new Error('Choose 1–50 rounds.');config.levels=generateLevels(config.seed,count,config.difficulty);}
@@ -50,10 +59,15 @@ function start(){
 }
 function finishHistory(){
   if(!engine||engine.recorded||!engine.rounds.length)return;engine.recorded=true;
-  const record={id:id('session'),date:new Date().toISOString(),label:engine.config.label,mode:engine.config.mode,solo:engine.config.solo,assisted:engine.assisted,seed:engine.config.seed,totalRounds:engine.rounds.length,voided:engine.voided,summary:engine.result(),rounds:clone(engine.rounds.slice(-50))};
+  const record={id:id('session'),date:new Date().toISOString(),label:engine.config.label,mode:engine.config.mode,solo:engine.config.solo,assisted:engine.assisted,seed:engine.config.seed,totalRounds:engine.rounds.length,voided:engine.voided,duel:engine.config.duel??null,summary:engine.result(),rounds:clone(engine.rounds.slice(-50))};
   store=addHistory(store,record);persist();
 }
 function input(player,submit=false){if(screen!=='game')return;audio.unlock();submit?engine.submit(player,now()):engine.count(player,now());render();}
+function touchInput(target){
+  const player=Number(target.dataset.player),submit=target.dataset.touchAction==='submit';if(target.disabled||![0,1].includes(player))return;
+  if(screen==='checks'){if(ui.config.solo&&player===1)return;audio.unlock();ui.checked[player*2+(submit?1:0)]=true;render();}
+  else input(player,submit);
+}
 function pause(){if(screen==='game'){engine.pause(now());go('paused');}}
 function resume(){if(screen==='paused'){engine.resume(now());go('game');}}
 function blankLevel(){return {id:id('level'),name:'My box puzzle',boardSize:5,provenance:'Created in the Box Counting editor',boxes:[],presentation:{kind:'static',durationMs:2500},revealOrder:[]};}
@@ -111,7 +125,7 @@ function action(target){
   else if(a==='pause')pause();
   else if(a==='resume')resume();
   else if(a==='finish-practice'){engine.finishPractice(now());go('game');}
-  else if(a==='again'){const config=clone(engine.config);if(config.source==='generated'){config.seed=seed();if(!config.endless)config.levels=generateLevels(config.seed,config.levels.length,config.difficulty,config.family);}checkControls(config);}
+  else if(a==='again'){const config=clone(engine.config);if(config.source==='generated'){config.seed=seed();if(!config.endless)config.levels=['ladder','motion'].includes(config.mode)?generateChallenge(config.seed,config.levels.length,config.mode,config.difficulty):generateLevels(config.seed,config.levels.length,config.difficulty,config.family);}checkControls(config);}
   else if(a==='settings')settings();
   else if(a==='settings-back'){ui.captureKey=null;go(settingsBack);}
   else if(a==='bind'){ui.captureKey=target.dataset.key;render();}
@@ -169,11 +183,20 @@ function action(target){
     const config=baseConfig(`Replay practice · ${h.label}`,'practice');config.source='authored';config.solo=h.solo;config.assisted=true;config.levels=clone(levels);ui.returnTo='history';checkControls(config);
   }else if(a==='count'||a==='submit')input(Number(target.dataset.player),a==='submit');
 }
-document.addEventListener('click',event=>{const target=event.target.closest('[data-action]');if(target){if(target.type==='submit'&&target.closest('form'))return;action(target);}});
+document.addEventListener('pointerdown',event=>{
+  const target=event.target.closest('[data-touch-action]');if(!target||target.disabled||event.button!==0||!contacts.begin(event.pointerId))return;
+  event.preventDefault();if(screen==='game')try{target.setPointerCapture(event.pointerId);}catch{}touchInput(target);
+});
+for(const type of ['pointerup','pointercancel','lostpointercapture'])document.addEventListener(type,event=>contacts.end(event.pointerId));
+document.addEventListener('contextmenu',event=>{if(event.target.closest('[data-touch-action]'))event.preventDefault();});
+document.addEventListener('click',event=>{
+  const touch=event.target.closest('[data-touch-action]');if(touch){if(event.detail===0)touchInput(touch);return;}
+  const target=event.target.closest('[data-action]');if(target){if(target.type==='submit'&&target.closest('form'))return;action(target);}
+});
 document.addEventListener('submit',event=>{
   event.preventDefault();audio.unlock();
   try{if(event.target.id==='setup-form')buildSetup(event.target);else if(event.target.id==='settings-form'){
-    const f=event.target.elements;store.settings.sound=f.sound.checked;store.settings.volume=Number(f.volume.value);store.settings.highContrast=f.highContrast.checked;store.settings.reducedMotion=f.reducedMotion.checked;audio.configure(store.settings);persist('Settings saved.');
+    const f=event.target.elements;store.settings.inputMode=f.inputMode.value;store.settings.sound=f.sound.checked;store.settings.volume=Number(f.volume.value);store.settings.highContrast=f.highContrast.checked;store.settings.reducedMotion=f.reducedMotion.checked;detectControls();audio.configure(store.settings);persist('Settings saved.');
     if(ui.config)ui.config.reducedMotion=store.settings.reducedMotion;go(settingsBack);
   }}catch(error){toast(error.message);}
 });
@@ -199,6 +222,7 @@ overlay.addEventListener('click',event=>{
 });
 document.addEventListener('keydown',event=>{
   if(event.isComposing)return;
+  if(['Space','Enter'].includes(event.code)&&event.target.closest('[data-touch-action]'))return;
   if(screen==='settings'&&ui.captureKey){event.preventDefault();const key=ui.captureKey;const candidate={...store.settings.bindings,[key]:event.code};
     if(!validBinding(event.code)){toast('Use a letter, number, arrow, space or numeric-pad key.');return;}
     if(!validBindings(candidate)){toast('That key is already used by another action.');return;}
@@ -211,19 +235,44 @@ document.addEventListener('keydown',event=>{
   if(screen==='checks'){ui.checked[index]=true;render();}else input(index>=2?1:0,index%2===1);
 });
 document.addEventListener('keyup',event=>held.delete(event.code));
-window.addEventListener('blur',()=>{held.clear();pause();});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){held.clear();pause();}});
+window.addEventListener('blur',()=>{held.clear();contacts.clear();pause();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){held.clear();contacts.clear();pause();}});
+window.addEventListener('resize',()=>{detectControls();render();});
+coarsePointer.addEventListener('change',()=>{detectControls();render();});
 
-function render(){
+function render(time=now()){
   stage.dataset.screen=screen;stage.dataset.phase=engine?.phase??'';document.body.classList.toggle('is-playing',['game','paused'].includes(screen));
-  nav.hidden=['game','paused','checks'].includes(screen);header.textContent=screen==='game'||screen==='paused'?`${engine.config.label.toUpperCase()} · ROUND ${engine.roundIndex+1}${engine.config.endless?'':` / ${engine.levels.length}`}${engine.assisted?' · ASSISTED':''}`:'TWO PLAYERS · ONE KEYBOARD';
+  document.body.classList.toggle('touch-ui',ui.touch);document.body.classList.toggle('is-touch-game',ui.touch&&['game','paused'].includes(screen));
+  const title=ui.touch?'Box Counting — touch controls':'Box Counting — two players, one keyboard';if(document.title!==title)document.title=title;
+  const shortcuts=document.querySelector('#footer-shortcuts'),shortcutText=ui.touch?'TOUCH / PAUSE':'ESC / PAUSE';if(shortcuts.textContent!==shortcutText)shortcuts.textContent=shortcutText;
+  const viewBox=ui.touch&&['game','paused'].includes(screen)?'240 35 800 660':'0 0 1280 720';if(scene.getAttribute('viewBox')!==viewBox)scene.setAttribute('viewBox',viewBox);
+  nav.hidden=['game','paused','checks'].includes(screen);header.textContent=screen==='game'||screen==='paused'?`${engine.config.label.toUpperCase()} · ROUND ${engine.roundIndex+1}${engine.config.endless?'':` / ${engine.levels.length}`}${engine.assisted?' · ASSISTED':''}`:ui.touch?'TWO PLAYERS · TOUCH CONTROLS':'TWO PLAYERS · ONE KEYBOARD';
   const uiResult=renderUI(context());const overlayKey=uiResult.cls+uiResult.html;if(overlayKey!==lastOverlay){overlay.className=`overlay ${uiResult.cls}`;overlay.innerHTML=uiResult.html;lastOverlay=overlayKey;}
-  let svg;
-  if(screen==='game'||screen==='paused')svg=gameSvg(engine,now(),store.settings.bindings,store.settings);
-  else svg=`<rect width="1280" height="720" fill="#f7f7f7"/>${['menu','checks'].includes(screen)?`<g opacity=".17" transform="translate(310,20)">${boardSvg(pack?.levels[1]??{boxes:[],revealOrder:[]})}</g>`:''}`;
-  if(svg!==lastScene){scene.innerHTML=svg;lastScene=svg;}
-  const controls=screen==='game'?`${engine.phase==='answer'?`<div class="touch-player"><span>P1</span><button data-action="count" data-player="0" ${engine.submissions[0]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p1Count))}</kbd></button><button data-action="submit" data-player="0" ${engine.submissions[0]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p1Submit))}</kbd></button></div>${engine.config.solo?'':`<div class="touch-player p2"><span>P2</span><button data-action="count" data-player="1" ${engine.submissions[1]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p2Count))}</kbd></button><button data-action="submit" data-player="1" ${engine.submissions[1]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p2Submit))}</kbd></button></div>`}`:''}<div class="game-options"><button data-action="pause">Pause · Esc</button>${engine.config.endless?'<button data-action="finish-practice">Finish practice</button>':''}</div>`:'';
-  if(controls!==lastControls){playControls.innerHTML=controls;lastControls=controls;}
+  if(screen==='game'||screen==='paused')sceneView.draw(engine,time,store.settings.bindings,{...store.settings,touch:ui.touch});
+  else sceneView.update(`<rect width="1280" height="720" fill="#f7f7f7"/>${['menu','checks'].includes(screen)?`<g opacity=".17" transform="translate(310,20)">${boardSvg(pack?.levels[1]??{boxes:[],revealOrder:[]})}</g>`:''}`,null,time);
+  matchStatus.hidden=!(['game','paused'].includes(screen)&&engine?.config.duel);
+  if(!matchStatus.hidden){const d=engine.duelStatus(),unit=d.rule==='points'?'points':'seconds',scores=d.rule==='points'?d.points: d.players.map(p=>(p.displayMs/1000).toFixed(2)),lead=d.rule==='points'?d.lead:(d.lead/1000).toFixed(2),target=d.rule==='points'?d.target:d.target/1000;const text=`P1 ${scores[0]} · P2 ${scores[1]} ${unit} | Lead ${lead} / ${target} | ${engine.rounds.length} / ${engine.config.duel.minRounds} minimum rounds${engine.config.duel.maxRounds?` | Cap ${engine.config.duel.maxRounds}`:''}`;if(matchStatus.textContent!==text)matchStatus.textContent=text;}
+  const controls=screen==='game'?`${engine.phase==='answer'?`<div class="touch-player"><span>P1</span><button data-action="count" data-player="0" ${engine.submissions[0]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p1Count))}</kbd></button><button data-action="submit" data-player="0" ${engine.submissions[0]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p1Submit))}</kbd></button></div>${engine.config.solo?'':`<div class="touch-player p2"><span>P2</span><button data-action="count" data-player="1" ${engine.submissions[1]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p2Count))}</kbd></button><button data-action="submit" data-player="1" ${engine.submissions[1]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p2Submit))}</kbd></button></div>`}`:''}<div class="game-options"><button data-action="pause">Pause · Esc</button>${engine.config.endless&&!engine.config.duel?'<button data-action="finish-practice">Finish practice</button>':''}</div>`:'';
+  playControls.hidden=ui.touch;if(controls!==lastControls){playControls.innerHTML=controls;lastControls=controls;}
+  renderPhoneControls(time);
+}
+function renderPhoneControls(time){
+  phonePanel.hidden=!ui.touch||screen!=='game';if(phonePanel.hidden)return;
+  const phoneButton=(player,submit)=>`<button type="button" class="phone-action ${submit?'submit':'count'}" data-touch-action="${submit?'submit':'count'}" data-player="${player}" aria-label="Player ${player+1} ${submit?'submit answer':'count one box'}">${submit?'Submit':'Count +1'}</button>`;
+  const solo=engine.config.solo;
+  const pads=solo?`<div class="phone-solo-count">${phoneButton(0,false)}</div><div class="phone-solo-answer"><span>Your answer</span><output data-phone-count="0" aria-label="Your answer" aria-live="off">00</output><span data-phone-hint="0"></span></div><div class="phone-solo-submit">${phoneButton(0,true)}</div>`:[0,1].map(p=>`<div class="phone-pad p${p+1}"><span>Player ${p+1}</span><output data-phone-count="${p}" aria-label="Player ${p+1} answer" aria-live="off">00</output>${phoneButton(p,false)}${phoneButton(p,true)}<small data-phone-hint="${p}"></small></div>`).join('');
+  const html=`${pads}<div class="phone-options"><span class="phone-round" data-phone-round></span><button data-action="pause" type="button">Pause</button>${engine.config.endless&&!engine.config.duel?'<button data-action="finish-practice" type="button">Finish practice</button>':''}</div>`;
+  if(html!==lastPhoneControls){phonePanel.innerHTML=html;lastPhoneControls=html;lastPhoneState='';}
+  phonePanel.classList.toggle('solo',solo);
+  const seconds=engine.phase==='answer'&&engine.config.answerLimitMs?Math.max(0,Math.ceil((engine.deadline-time)/1000)):null;
+  const signature=JSON.stringify([engine.phase,engine.roundIndex,engine.guesses,engine.submissions,engine.paused,seconds]);if(signature===lastPhoneState)return;lastPhoneState=signature;
+  phonePanel.querySelector('[data-phone-round]').textContent=`Round ${engine.roundIndex+1}${engine.config.endless?'':` / ${engine.levels.length}`}${seconds!==null?` · ${seconds}s left`:''}`;
+  for(let p=0;p<(solo?1:2);p++){
+    const state=phoneButtonState(engine,p),value=phonePanel.querySelector(`[data-phone-count="${p}"]`),hint=phonePanel.querySelector(`[data-phone-hint="${p}"]`);
+    if(value.textContent!==state.count)value.textContent=state.count;if(hint.textContent!==state.status)hint.textContent=state.status;
+    value.dataset.feedback=state.feedback;
+    for(const button of phonePanel.querySelectorAll(`[data-touch-action][data-player="${p}"]`))button.disabled=state.disabled;
+  }
 }
 function frame(time){
   if(screen==='game'){
@@ -232,12 +281,12 @@ function frame(time){
     let cue='';if(['matchCountdown','puzzleCountdown'].includes(engine.phase))cue=`${engine.roundIndex}|${engine.phase}|${Math.ceil((engine.deadline-time)/(engine.phase==='matchCountdown'||engine.roundIndex===0?1000:2000/3))}`;
     else if(engine.phase==='revealCounting')cue=`reveal|${engine.roundIndex}|${Math.floor((time-engine.phaseStartedAt)/rules.revealStepMs)}`;
     if(cue&&cue!==lastCue){audio.cue(cue.startsWith('reveal')?'reveal':'countdown');lastCue=cue;}
-    if(engine.phase==='results'){finishHistory();go('results');}else render();
+    if(engine.phase==='results'){finishHistory();go('results');}else render(time);
   }
   requestAnimationFrame(frame);
 }
 async function init(){
-  try{const [p,r]=await Promise.all([fetch('./data/reference-pack.json'),fetch('./data/rules-profile.json')]);if(!p.ok||!r.ok)throw new Error('The level or rules file is unavailable.');pack=normalizePack(await p.json());rules=await r.json();audio.configure(store.settings);go('menu');if(storageWarning)toast(storageWarning);}
+  try{const [p,r,v]=await Promise.all([fetch('./data/reference-pack.json'),fetch('./data/rules-profile.json'),fetch('./data/video-pack.json')]);if(!p.ok||!r.ok||!v.ok)throw new Error('The level or rules file is unavailable.');pack=normalizePack(await p.json());videoPack=normalizePack(await v.json());rules=await r.json();audio.configure(store.settings);go('menu');if(storageWarning)toast(storageWarning);}
   catch(error){ui.error=error.message;go('error');}
   requestAnimationFrame(frame);
 }

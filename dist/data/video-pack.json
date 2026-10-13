@@ -1,0 +1,1001 @@
+{
+  "schemaVersion": 1,
+  "id": "video-traced-twelve",
+  "title": "Video challenge \u2014 12 traced layouts",
+  "provenance": "Two Nintendo UK promotional formations followed by the complete Hadski session. Manually traced; timing/path approximations.",
+  "rulesProfile": "classic-observed-v1",
+  "levels": [
+    {
+      "id": "video-official-1",
+      "name": "Promo: six-box tail",
+      "boardSize": 5,
+      "provenance": "Manually traced from Nintendo UK JfkkS7yH4Co at 2.3s; coordinates rechecked 2026-10-13; static 750ms exposure approximated.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 2,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 3,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 2,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 3,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 3,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b6",
+          "x": 3,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 750
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ]
+    },
+    {
+      "id": "video-official-2",
+      "name": "Promo: staggered three and two",
+      "boardSize": 5,
+      "provenance": "Manually traced from Nintendo UK 9PZazcFJEvk at 2.3s; coordinates rechecked 2026-10-13; static 750ms exposure approximated.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 1,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 2,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 1,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 2,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 750
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5"
+      ]
+    },
+    {
+      "id": "ref-01",
+      "name": "Pair and singleton",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 324s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 2,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 2,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 750
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    },
+    {
+      "id": "ref-02",
+      "name": "Five and one",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 329s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 1,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 2,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 3,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b6",
+          "x": 4,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 750
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ]
+    },
+    {
+      "id": "ref-03",
+      "name": "Short towers",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 336.1s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 0,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 0,
+          "y": 4,
+          "z": 1,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 4,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 0,
+          "z": 1,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 750
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5"
+      ]
+    },
+    {
+      "id": "ref-04",
+      "name": "Travelling gap and branch",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 349.25s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 1,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 1,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 1,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 2,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "travel",
+        "durationMs": 1200,
+        "from": {
+          "x": 1050,
+          "y": -520
+        },
+        "to": {
+          "x": -1050,
+          "y": 520
+        }
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5"
+      ]
+    },
+    {
+      "id": "ref-05",
+      "name": "One broad box",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 351.95s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 0,
+          "y": 1,
+          "z": 0,
+          "w": 2,
+          "d": 2,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 2,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 0,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 750
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    },
+    {
+      "id": "ref-06",
+      "name": "Travelling towers",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 358.5s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 0,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 0,
+          "y": 3,
+          "z": 1,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 0,
+          "y": 3,
+          "z": 2,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 0,
+          "y": 3,
+          "z": 3,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 4,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b6",
+          "x": 4,
+          "y": 0,
+          "z": 1,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b7",
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "travel",
+        "durationMs": 1200,
+        "from": {
+          "x": 1050,
+          "y": -520
+        },
+        "to": {
+          "x": -1050,
+          "y": 520
+        }
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7"
+      ]
+    },
+    {
+      "id": "ref-07",
+      "name": "Two rows",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 366.7s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 1,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b6",
+          "x": 2,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b7",
+          "x": 3,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b8",
+          "x": 4,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 750
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8"
+      ]
+    },
+    {
+      "id": "ref-08",
+      "name": "Corner flash",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 375.5s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 2,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 100
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    },
+    {
+      "id": "ref-09",
+      "name": "Fast travelling groups",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 381.9s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 3,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "travel",
+        "durationMs": 700,
+        "from": {
+          "x": -1050,
+          "y": -520
+        },
+        "to": {
+          "x": 1050,
+          "y": 520
+        }
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    },
+    {
+      "id": "ref-10",
+      "name": "Missing center",
+      "boardSize": 5,
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 384.2s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
+      "boxes": [
+        {
+          "id": "b1",
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b2",
+          "x": 1,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b3",
+          "x": 2,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b4",
+          "x": 3,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b5",
+          "x": 4,
+          "y": 0,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b6",
+          "x": 0,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b7",
+          "x": 1,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b8",
+          "x": 2,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b9",
+          "x": 3,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b10",
+          "x": 4,
+          "y": 1,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b11",
+          "x": 0,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b12",
+          "x": 1,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b13",
+          "x": 3,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b14",
+          "x": 4,
+          "y": 2,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b15",
+          "x": 0,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b16",
+          "x": 1,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b17",
+          "x": 2,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b18",
+          "x": 3,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b19",
+          "x": 4,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b20",
+          "x": 0,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b21",
+          "x": 1,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b22",
+          "x": 2,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b23",
+          "x": 3,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b24",
+          "x": 4,
+          "y": 4,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        }
+      ],
+      "presentation": {
+        "kind": "static",
+        "durationMs": 250
+      },
+      "revealOrder": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12",
+        "b13",
+        "b14",
+        "b15",
+        "b16",
+        "b17",
+        "b18",
+        "b19",
+        "b20",
+        "b21",
+        "b22",
+        "b23",
+        "b24"
+      ]
+    }
+  ]
+}

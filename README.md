@@ -12,7 +12,7 @@ The hosted game will be available at [Box Counting](https://samueldovgin.github.
 
 Every push to `main` runs the game tests and deploys `dist/` using `.github/workflows/pages.yml`. The workflow publishes only the playable game; research files and downloaded video references are excluded from the deployed site. No build command or custom domain is needed.
 
-Play Classic (10 reconstructed rounds), Quick (5 fresh puzzles), Full (20 fresh puzzles), Endless solo practice, individual puzzle practice, or a Custom match. Create and save levels, arrange packs, import/export JSON, remap controls, and review or replay completed sessions. Player 1 uses **Z/X**; Player 2 uses **N/M**. [Game instructions and release status](docs/08-playable-prototype.md) explain all modes and winning rules.
+Play Classic (10 reconstructed rounds), Quick (5 fresh puzzles), Full (20 fresh puzzles), Endless solo practice, individual puzzle practice, a Custom match, Video Challenge (12 traced layouts), Pattern Ladder, Motion Gauntlet, or a customizable Endless Duel. Create and save levels, arrange packs, import/export JSON, remap controls, and review or replay completed sessions. Player 1 uses **Z/X**; Player 2 uses **N/M**. Phones automatically show left/right Count and Submit buttons, including a keyboard-free control check. [Phone play and testing](docs/11-phone-controls.md) covers the layout and local-network preview. [Game instructions and release status](docs/08-playable-prototype.md) explain all modes and winning rules.
 
 A researched implementation plan for recreating the Box Counting minigame from Dr Kawashima’s Brain Training for Nintendo Switch in a browser, with two players sharing one keyboard.
 
@@ -31,6 +31,8 @@ A researched implementation plan for recreating the Box Counting minigame from D
 
 ## Supporting artifacts
 
+- [Video and endless-duel expansion](docs/10-video-layouts-and-endless-duel.md)
+- [Twelve-level video challenge pack](data/video-pack.json)
 - [Ten-level reconstruction pack](data/reference-pack.json), [schema](data/level-pack.schema.json), and [rules profile](data/rules-profile.json)
 - [Watch visual target](assets/visual-targets/watch.png), [answer visual target](assets/visual-targets/answer.png), and [reveal visual target](assets/visual-targets/reveal.png); editable SVGs sit beside the PNGs
 - [Observed large box](references/frames/large-boxes.png) and [observed final score](references/frames/final-score.png)
@@ -50,4 +52,4 @@ The Word document is the original planning snapshot. The playable files are unde
 
 ## Verification
 
-Run `node --test tests/*.test.mjs` for the 21 checks covering scores, full matches, timers, pausing, generation, geometry, imports, and persistence. [Release QA](docs/09-release-qa.md) records browser checks and practical limits.
+Run `node --test tests/*.test.mjs` for the 37 checks covering scores, full matches, timers, pausing, generation, geometry, imports, and persistence. [Release QA](docs/09-release-qa.md) records browser checks and practical limits.

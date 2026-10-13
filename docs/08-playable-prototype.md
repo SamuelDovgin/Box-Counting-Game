@@ -14,7 +14,7 @@ Open http://127.0.0.1:8765/ in a desktop browser. No package installation or bui
 
 ## Gameplay and winning
 
-1. Check the keys before starting. Player 1 uses Z to count and X to submit; Player 2 uses N and M. The alternative preset is A/S and K/L. Settings also supports individual remapping with four distinct physical keys.
+1. Check the controls before starting. On a phone, tap the Count and Submit test buttons for each player; no keyboard is required. Player 1 uses Z to count and X to submit; Player 2 uses N and M. The alternative preset is A/S and K/L. Settings also supports individual remapping with four distinct physical keys.
 2. Wait through the match countdown and puzzle countdown, then watch the boxes. Input during these phases is ignored.
 3. When the boxes disappear, tally the number of separate box objects. Each press adds one, starting at zero and capped at 99. Holding a key adds only one. You cannot decrement the counter. A large unsegmented box counts once; separate boxes in a tower each count.
 4. Submit to lock your answer and stop your own timer. The other player can continue. No correctness feedback appears until everyone has submitted or the optional deadline expires.
@@ -32,11 +32,23 @@ Solo practice reports correct answers, accuracy, and average answer time. Its ro
 | Full match | Twenty freshly generated puzzles; solo or two players. |
 | Endless practice | Solo generated puzzles until Finish practice. Choose mixed styles or one family. Only submitted/completed rounds enter the result. |
 | Choose a puzzle | One solo round from the reference pack, saved levels, or saved packs. |
+| Video challenge | Twelve manually traced layouts: both official promotional formations followed by the ten Hadski rounds. Solo or two players. |
+| Pattern ladder | 1–50 generated rounds (20 by default). Difficulty rises every five rounds; later shapes include gapped branches, broad boxes, stairs, hollow frames, and checkerboards. |
+| Motion gauntlet | 1–50 moving rounds (10 by default), combining travelling groups, rows, gaps, towers, and large boxes with progressively harder presets. |
+| Endless duel | Two players until the chosen time/point lead is reached after the minimum rounds, or an optional cap. Details below. |
 | Custom match | Solo or two players; generated content with 1–50 rounds, or an authored pack played once through. Optional shuffled pack order, viewing-time override, and answer limit of 5/8/15/30 seconds. |
 
-Quick, Full, Endless, and generated Custom support Gentle, Standard, and Intense. The seed and generator version reproduce arrangements. Generation is an original browser extension, not Nintendo's algorithm. Seven families cover grouped/scattered boxes, separate towers, large boxes, travelling formations, quick flashes, and dense boards. Seeded packs avoid exact repeated arrangements within 100 attempts per round. Generated layouts use constrained templates with supported boxes and visible top surfaces or tower boundaries.
+Quick, Full, Endless, and generated Custom support Gentle, Standard, and Intense. The seed and generator version reproduce arrangements. Generation is an original browser extension, not Nintendo's algorithm. Generator v2 includes sixteen families: grouped/scattered boxes, towers, large boxes, travel, flashes, dense boards, rows, gapped branches, stairs, hollow frames, checkerboards, and travelling towers/large boxes/rows/gaps. Mixed games introduce additional families after round five. Earlier v1 seeds now produce v2 layouts; saved replays retain their stored geometry. Seeded packs avoid exact repeated arrangements within 100 attempts per round. Generated layouts use constrained templates with supported boxes and visible top surfaces or tower boundaries.
 
-The ten reference answers are 3, 6, 5, 5, 4, 7, 8, 3, 4, and 24. Their layout coordinates and some timing/path values are reconstructed approximations. Classic includes a 100 ms flash, stacked travelling boxes, a broad box, and the final 24-box board.
+The ten reference answers are 3, 6, 5, 5, 4, 7, 8, 3, 4, and 24. Their grid coordinates were rechecked against full-resolution source frames. Timing/path values remain approximations. Reference/video layouts use a fixed camera matching the footage; custom/generated boards retain automatic fitting. Classic includes a 100 ms flash, stacked travelling boxes, a broad box, and the final 24-box board.
+
+## Endless duel rules
+
+The default is an **adjusted-time lead of 20 seconds after at least 5 completed rounds**, with a 15-second answer deadline, no round cap, and difficulty rising every five rounds. Lower accumulated answer time plus five seconds per mistake wins. A player may lead early; the duel continues until the minimum-round requirement is met. Scores update only once both answers settle, and the last reveal finishes before the result appears.
+
+Alternatively choose **round points**. One correct answer beats a wrong/missing answer and earns one point. If both are correct, the faster answer to the displayed hundredth of a second earns one point. Both wrong or equal correct times award no point. Higher points win when the configured point lead is reached. This mode's results and round details do not apply time penalties.
+
+Configure either winning rule, time lead (1–120 seconds), point lead (1–20), minimum rounds (1–50), answer deadline or no deadline, puzzle family, starting difficulty, escalation, and optional round cap (0 means none; otherwise up to 500 and at least the minimum rounds). Only the threshold for the selected rule applies. At a cap, the current score decides the winner; equal scores draw. An unfinished/abandoned duel does not declare a winner. See [video and mode expansion](10-video-layouts-and-endless-duel.md) for evidence and QA.
 
 ## Level editor and packs
 
@@ -58,7 +70,7 @@ Completed sessions appear in Match history with answers, individual times, and c
 
 ## Technical implementation and verification
 
-The release uses native JavaScript ES modules, SVG, Web Audio, localStorage, and a dependency-free Python development server. The pure engine uses monotonic timestamps and has no DOM dependency. Gameplay uses `KeyboardEvent.code`, repeat suppression, and independent player locks. Touch/mouse count and submit buttons are available during answering, but the initial control check requires a keyboard.
+The release uses native JavaScript ES modules, SVG with a persistent animated travel layer, Web Audio, localStorage, and a dependency-free Python development server. The pure engine uses monotonic timestamps and has no DOM dependency. Gameplay uses `KeyboardEvent.code`, repeat suppression, and independent player locks. Phones automatically show persistent touch pads and a keyboard-free control check. In duels, both sides have Count and Submit; in solo play, Count is left and Submit is right. Settings provides Automatic/Touch/Desktop overrides. See [phone controls](11-phone-controls.md).
 
 Run:
 
@@ -66,7 +78,7 @@ Run:
 node --test tests/*.test.mjs
 ```
 
-All 21 tests pass, including 630 generated layouts across three difficulty presets and seven families, deterministic packs, a complete 20-round match, exact observed scoring, timeouts, locking, pause reserves, Endless termination, import/export, rendering bounds, and corrupted-storage recovery. See [release QA](09-release-qa.md) for browser evidence and limits.
+All 37 tests pass, including 1,440 generated layouts across three difficulty presets and sixteen families, deterministic packs, a complete 20-round match, exact observed scoring, timeouts, locking, pause reserves, Endless termination, import/export, rendering bounds, corrupted-storage recovery, lead/cap/point rules, long-duel history, progressive campaigns, and retained geometry during travel. See [release QA](09-release-qa.md) for browser evidence and limits.
 
 ## Fidelity and later extensions
 

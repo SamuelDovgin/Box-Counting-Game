@@ -2,19 +2,19 @@
   "schemaVersion": 1,
   "id": "reference-style-ten",
   "title": "Reference style ten round pack",
-  "provenance": "Based on Hadski Gaming 2SR6dQM1BDc; not extracted original game data.",
+  "provenance": "Ten manually traced Hadski Gaming video formations, revised after frame-by-frame review. Not extracted original game data.",
   "rulesProfile": "classic-observed-v1",
   "levels": [
     {
       "id": "ref-01",
       "name": "Pair and singleton",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 324s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
-          "x": 1,
-          "y": 2,
+          "x": 2,
+          "y": 3,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -31,7 +31,7 @@
         },
         {
           "id": "b3",
-          "x": 3,
+          "x": 2,
           "y": 0,
           "z": 0,
           "w": 1,
@@ -53,7 +53,7 @@
       "id": "ref-02",
       "name": "Five and one",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 329s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
@@ -93,8 +93,8 @@
         },
         {
           "id": "b5",
-          "x": 1,
-          "y": 3,
+          "x": 3,
+          "y": 2,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -127,12 +127,12 @@
       "id": "ref-03",
       "name": "Short towers",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 336.1s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
           "x": 0,
-          "y": 3,
+          "y": 4,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -141,7 +141,7 @@
         {
           "id": "b2",
           "x": 0,
-          "y": 3,
+          "y": 4,
           "z": 1,
           "w": 1,
           "d": 1,
@@ -149,7 +149,7 @@
         },
         {
           "id": "b3",
-          "x": 3,
+          "x": 4,
           "y": 0,
           "z": 0,
           "w": 1,
@@ -158,7 +158,7 @@
         },
         {
           "id": "b4",
-          "x": 3,
+          "x": 4,
           "y": 0,
           "z": 1,
           "w": 1,
@@ -189,14 +189,14 @@
     },
     {
       "id": "ref-04",
-      "name": "Travelling branch",
+      "name": "Travelling gap and branch",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 349.25s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
-          "x": 0,
-          "y": 1,
+          "x": 1,
+          "y": 0,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -213,8 +213,8 @@
         },
         {
           "id": "b3",
-          "x": 2,
-          "y": 1,
+          "x": 1,
+          "y": 2,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -222,8 +222,8 @@
         },
         {
           "id": "b4",
-          "x": 3,
-          "y": 1,
+          "x": 1,
+          "y": 4,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -231,8 +231,8 @@
         },
         {
           "id": "b5",
-          "x": 1,
-          "y": 2,
+          "x": 2,
+          "y": 3,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -263,11 +263,11 @@
       "id": "ref-05",
       "name": "One broad box",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 351.95s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
-          "x": 1,
+          "x": 0,
           "y": 1,
           "z": 0,
           "w": 2,
@@ -276,7 +276,7 @@
         },
         {
           "id": "b2",
-          "x": 3,
+          "x": 2,
           "y": 1,
           "z": 0,
           "w": 1,
@@ -285,7 +285,7 @@
         },
         {
           "id": "b3",
-          "x": 3,
+          "x": 2,
           "y": 2,
           "z": 0,
           "w": 1,
@@ -295,7 +295,7 @@
         {
           "id": "b4",
           "x": 0,
-          "y": 3,
+          "y": 4,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -317,7 +317,7 @@
       "id": "ref-06",
       "name": "Travelling towers",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 358.5s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
@@ -357,7 +357,7 @@
         },
         {
           "id": "b5",
-          "x": 3,
+          "x": 4,
           "y": 0,
           "z": 0,
           "w": 1,
@@ -366,7 +366,7 @@
         },
         {
           "id": "b6",
-          "x": 3,
+          "x": 4,
           "y": 0,
           "z": 1,
           "w": 1,
@@ -409,11 +409,11 @@
       "id": "ref-07",
       "name": "Two rows",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 366.7s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
-          "x": 0,
+          "x": 1,
           "y": 0,
           "z": 0,
           "w": 1,
@@ -422,7 +422,7 @@
         },
         {
           "id": "b2",
-          "x": 1,
+          "x": 2,
           "y": 0,
           "z": 0,
           "w": 1,
@@ -431,7 +431,7 @@
         },
         {
           "id": "b3",
-          "x": 2,
+          "x": 3,
           "y": 0,
           "z": 0,
           "w": 1,
@@ -440,7 +440,7 @@
         },
         {
           "id": "b4",
-          "x": 3,
+          "x": 4,
           "y": 0,
           "z": 0,
           "w": 1,
@@ -449,15 +449,6 @@
         },
         {
           "id": "b5",
-          "x": 0,
-          "y": 3,
-          "z": 0,
-          "w": 1,
-          "d": 1,
-          "h": 1
-        },
-        {
-          "id": "b6",
           "x": 1,
           "y": 3,
           "z": 0,
@@ -466,7 +457,7 @@
           "h": 1
         },
         {
-          "id": "b7",
+          "id": "b6",
           "x": 2,
           "y": 3,
           "z": 0,
@@ -475,8 +466,17 @@
           "h": 1
         },
         {
-          "id": "b8",
+          "id": "b7",
           "x": 3,
+          "y": 3,
+          "z": 0,
+          "w": 1,
+          "d": 1,
+          "h": 1
+        },
+        {
+          "id": "b8",
+          "x": 4,
           "y": 3,
           "z": 0,
           "w": 1,
@@ -503,12 +503,12 @@
       "id": "ref-08",
       "name": "Corner flash",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 375.5s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
           "x": 1,
-          "y": 1,
+          "y": 2,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -516,7 +516,7 @@
         },
         {
           "id": "b2",
-          "x": 1,
+          "x": 2,
           "y": 2,
           "z": 0,
           "w": 1,
@@ -526,7 +526,7 @@
         {
           "id": "b3",
           "x": 2,
-          "y": 1,
+          "y": 3,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -547,12 +547,12 @@
       "id": "ref-09",
       "name": "Fast travelling groups",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 381.9s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",
           "x": 1,
-          "y": 2,
+          "y": 3,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -561,7 +561,7 @@
         {
           "id": "b2",
           "x": 2,
-          "y": 2,
+          "y": 3,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -570,7 +570,7 @@
         {
           "id": "b3",
           "x": 3,
-          "y": 0,
+          "y": 2,
           "z": 0,
           "w": 1,
           "d": 1,
@@ -609,7 +609,7 @@
       "id": "ref-10",
       "name": "Missing center",
       "boardSize": 5,
-      "provenance": "Authored reconstruction of V3 category and count; coordinates and path are approximate.",
+      "provenance": "Manually traced from Hadski Gaming 2SR6dQM1BDc at 384.2s; grid coordinates rechecked 2026-10-13. Timing and motion path remain approximate.",
       "boxes": [
         {
           "id": "b1",

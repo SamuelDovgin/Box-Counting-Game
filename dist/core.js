@@ -72,3 +72,11 @@ export function scoreMatch(rounds,penaltyMs=5000){
   return {players,winner:players[0].displayMs===players[1].displayMs?null:players[0].displayMs<players[1].displayMs?0:1};
 }
 export function soloSummary(rounds){const correct=rounds.filter(r=>r.players[0].guess===r.answer).length;return {correct,total:rounds.length,rawMs:rounds.reduce((n,r)=>n+r.players[0].elapsedMs,0),accuracy:rounds.length?Math.round(100*correct/rounds.length):0};}
+export function duelSummary(rounds,duel,penaltyMs=5000){
+  const result=scoreMatch(rounds,penaltyMs),points=[0,0];
+  for(const r of rounds){const correct=r.players.map(p=>p.guess===r.answer);if(correct[0]!==correct[1])points[correct[0]?0:1]++;else if(correct[0]){const times=r.players.map(p=>Math.round(p.elapsedMs/10));if(times[0]!==times[1])points[times[0]<times[1]?0:1]++;}}
+  const rule=duel.rule==='points'?'points':'time',values=rule==='points'?points:result.players.map(p=>p.displayMs),lead=Math.abs(values[0]-values[1]),target=rule==='points'?duel.pointsLead:duel.timeLeadMs;
+  const leader=values[0]===values[1]?null:rule==='points'?(values[0]>values[1]?0:1):result.winner;
+  const reached=rounds.length>=duel.minRounds&&lead>=target,cap=duel.maxRounds>0&&rounds.length>=duel.maxRounds;
+  return {...result,winner:leader,points,rule,lead,target,finished:reached||cap,reason:reached?'lead':cap?'round-cap':null};
+}

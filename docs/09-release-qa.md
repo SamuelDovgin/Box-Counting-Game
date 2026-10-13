@@ -4,7 +4,7 @@ Checked 13 October 2026. This supplements the earlier prototype checks and recor
 
 ## Automated checks
 
-`node --test tests/*.test.mjs` passes **21 tests**. The suite checks the ten reference counts, the large-box/entity distinction, rotations and depth-preserving mirrors, the footage's 29.24 versus 53.34 scoring result, displayed-centisecond draws, a version-locked generator fixture, deterministic distinct packs, and 630 generated layouts across all seven families and three presets.
+`node --test tests/*.test.mjs` passes **37 tests**. The suite checks the ten reference counts, the large-box/entity distinction, rotations and depth-preserving mirrors, the footage's 29.24 versus 53.34 scoring result, displayed-centisecond draws, a version-locked generator fixture, deterministic distinct packs, and 1,440 generated layouts across all sixteen families and three presets.
 
 Engine checks cover countdown/preview input rejection, independent locks and timers, single settlement, deadlines, correct counters without submission still timing out, fresh generated replacements after pausing, settled-reveal recovery, Endless generation/finish, and a complete twenty-round match. Data checks cover unsupported/overlapping geometry, duplicate IDs, bounded sizes, normalized JSON round trips, rendering bounds, persisted packs, key conflicts, storage write failures, malformed history/drafts, and replayable saved geometry.
 
@@ -16,7 +16,7 @@ Tested in the Codex in-app browser on this computer. Independent stable Firefox 
 
 | Flow | Observed result |
 | --- | --- |
-| Menu | All six modes, library, editor, history, settings, and instructions are reachable. |
+| Menu | All ten modes, library, editor, history, settings, and instructions are reachable. |
 | Authored editor | A 2×2×1 cuboid is one box/four occupied cells; stacking a unit produces two boxes/five cells. Undo and redo restore the correct object count. |
 | Editor test | Submitted two for that arrangement; solo results show one correct answer, 100% accuracy, and an independent answer time. Returning retains the editor. |
 | Saving and exchange | Saved a named level, exported JSON, imported it as a new pack, and preserved the original level. |
@@ -44,3 +44,13 @@ Earlier prototype QA completed all ten reference rounds in the browser and check
 Actual keyboard rollover depends on the keyboard and was not tested with two humans or a second physical keyboard. No hardware-level input/display latency, frame-rate benchmark, or independent browser matrix is claimed. The generated families have geometry checks and constrained placements; custom authored puzzles still need a visual fairness check. The original game's exact fonts, audio, paths, timing, rare tie/overflow rules, and full unpublished level library are not recovered.
 
 This release completes local play, multiple modes, authoring, JSON exchange, saved libraries, history/replay, remapping, and optional audio/motion/contrast settings. Online play, accounts, leaderboards, gamepads, adaptive progression, and richer editor timeline/path controls remain extensions.
+
+
+## Video, duel, and motion expansion
+
+The expanded suite adds source-layout checks, deterministic progressive/motion campaigns, minimum-round lead rules, point correctness/ties, cap draws, automatic termination after reveal, deadline scoring, pause without phantom points, long-duel history retention, stable travel geometry, and a bounded linear fallback. Follow-up browser QA verified automatic victory under both lead rules, invalid-cap rejection, five-box promotional practice, and paused/fixed-HUD motion. [Detailed evidence](10-video-layouts-and-endless-duel.md) includes the actual screenshots and motion samples.
+
+
+## Phone controls
+
+Added automatic phone detection, keyboard-free touch checks, persistent side controls, solo left/right controls, viewport/safe-area layouts, and a saved input-mode override. The five additional tests cover portrait/landscape detection, held/multiple contacts, ignored previews and independent locks, touch-only readiness, and setting compatibility. [Phone QA](11-phone-controls.md) records the completed pointer-only match, solo result, and viewport measurements.

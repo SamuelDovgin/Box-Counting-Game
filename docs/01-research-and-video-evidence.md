@@ -55,7 +55,7 @@ Times are seconds from the start of the downloaded recording, not from its chapt
 | 1 | 324.367 | 325.333 | 325.050 | 3 | 3 and 2 | Two adjacent and one isolated |
 | 2 | 329.333 | 331.133 | 332.150 | 6 | 6 and 7 | Compact flat group and isolated box |
 | 3 | 336.400 | 337.967 | 338.400 | 5 | 5 and 5 | Two two-high stacks and a singleton |
-| 4 | 342.983 | 344.850 | 348.150 | 5 | 4 and 6 | Travelling flat formation |
+| 4 | 342.983 | 344.850 | 348.150 | 5 | 4 and 6 | Travelling three-box line with a gap and offset pair |
 | 5 | 352.317 | 353.617 | 354.567 | 4 | 4 and 4 | Large box plus three small boxes |
 | 6 | 358.983 | 361.967 | 362.667 | 7 | 7 and 7 | Travelling stacks of four and two plus one |
 | 7 | 367.000 | 369.517 | 369.250 | 8 | 8 and 8 | Two rows of four |
@@ -91,3 +91,8 @@ The supplied image’s left caption calls its panel the counting challenge, but 
 ## Remaining uncertainty and verification gate
 
 One full match does not prove a universal fixed ten-round level order, all possible original layouts, or all difficulty modes. It establishes a ten-round observed session and its ten patterns. Exact original easing, fonts, audio waveforms, sub-frame timers, tie policy, maximum idle time, and randomization rules remain unverified. Implement the explicit defaults in this package and do not call them byte-for-byte or frame-perfect emulation. Additional sessions would be needed to establish original procedural distribution and rare outcomes.
+
+
+## Follow-up frame review
+
+The second review sampled the full counting segment at four frames per second, then decoded selected Watch/Reveal frames at full resolution. It corrected previously approximate cell coordinates, especially the gapped five-box travelling formation and the tower locations. Both Nintendo promotional layouts were traced into a new twelve-level Video Challenge pack. See [the follow-up evidence and mode decisions](10-video-layouts-and-endless-duel.md). Hollow frames, checkerboards, staircase variants, progressive campaigns, and lead-based endless duels are explicit browser extensions.

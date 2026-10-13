@@ -13,7 +13,7 @@ const config=(extra={})=>({levels:[pack.levels[0]],source:'generated',seed:'test
 function answerEngine(extra={}){const e=new GameEngine(config(extra),rules);e.start(0);e.update(3000);e.update(6000);e.update(6750);assert.equal(e.phase,'answer');return e;}
 
 test('seed and generator version reproduce complete packs',()=>{
- assert.equal(createHash('sha256').update(JSON.stringify(generateLevels('repeatable',20))).digest('hex'),'d199d853360e91a035320e6c31b259d15defbfe20236db2a3a81ca78281bb21c','Generator v1 fixture changed; explicitly version future algorithms.');
+ assert.equal(createHash('sha256').update(JSON.stringify(generateLevels('repeatable',20))).digest('hex'),'03886202e9fa7ee659ff511c00fc2443e75309f23e4933ad6382dd3d352d3446','Generator v2 fixture changed; explicitly version future algorithms.');
  assert.deepEqual(generateLevels('repeatable',20),generateLevels('repeatable',20));
  assert.notDeepEqual(generateLevels('repeatable',20),generateLevels('another',20));
  assert.equal(new Set(generateLevels('repeatable',20).map(levelSignature)).size,20);
@@ -61,9 +61,9 @@ test('custom JSON round trips preserve boxes and reveal identity while stripping
  const output=normalizePack(JSON.parse(JSON.stringify(input)));assert.equal(output.levels[0].boxes.length,4);assert.equal('html' in output.levels[0],false);
  assert.deepEqual(normalizePack(JSON.parse(JSON.stringify(output))),output);
 });
-test('renderer fits the board below the prompt and keeps tall editor levels inside the canvas',()=>{
- const tall={...pack.levels[0],boxes:[{id:'tall',x:0,y:0,z:0,w:1,d:1,h:4}],revealOrder:['tall']};
- for(const l of [...pack.levels,tall]){const fit=boardLayout(l);assert.ok(fit.y+fit.minY*fit.scale>=219.99);assert.ok(fit.y+fit.maxY*fit.scale<=620.01);assert.ok(fit.scale>0);}
+test('renderer preserves the footage camera and fits tall custom levels inside the canvas',()=>{
+ for(const l of pack.levels){const fit=boardLayout(l);assert.equal(fit.y,312);assert.equal(fit.scale,1);assert.ok(fit.y+fit.minY>=150);assert.ok(fit.y+fit.maxY<625);}
+ const tall={...pack.levels[0],id:'custom-tall',boxes:[{id:'tall',x:0,y:0,z:0,w:1,d:1,h:4}],revealOrder:['tall']},fit=boardLayout(tall);assert.ok(fit.y+fit.minY*fit.scale>=219.99);assert.ok(fit.y+fit.maxY*fit.scale<=620.01);
 });
 test('saved packs and controls survive reloading, with honest storage failure',()=>{
  let raw=null;const storage={setItem:(key,value)=>{raw=value;},getItem:()=>raw};const data=defaultStore();data.packs=[makePack([pack.levels[4]],'Saved pack')];saveStore(data,storage);assert.deepEqual(loadStore(storage).data.packs,data.packs);

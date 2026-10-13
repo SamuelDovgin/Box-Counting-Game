@@ -14,6 +14,9 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px s
 .stage { width: 100%; aspect-ratio: 16 / 9; position: relative; overflow: hidden; background: #f7f7f7; box-shadow: 0 15px 50px #2222; }
 .stage:focus { outline: none; }
 #scene { display: block; width: 100%; height: 100%; }
+[data-motion-layer] { transform-origin:0 0; transform-box:view-box; will-change:transform; }
+#match-status { margin:12px 0 0; padding:11px 14px; background:#fff; border-left:3px solid #28cadd; font-size:13px; line-height:1.5; }
+#match-status[hidden] { display:none; }
 .overlay { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
 .overlay.active { pointer-events: auto; }
 .overlay.menu { background: linear-gradient(90deg, #f7f7f7 0%, #f7f7f7ee 56%, #f7f7f700 100%); place-items: center start; padding: clamp(24px, 5.6%, 80px); }
@@ -80,7 +83,7 @@ kbd { display: inline-grid; place-items: center; min-width: 23px; height: 24px; 
 #main-nav[hidden] { display:none; }
 .nav-button { border:0; background:transparent; color:#454e4d; font-size:12px; font-weight:700; padding:8px 10px; }
 .nav-button:hover { background:#d9dfdd; }
-.complete-menu { overflow-y:auto; }
+.complete-menu { overflow-y:auto; align-items:start; }
 .complete-menu .menu-panel { max-width:710px; }
 .complete-menu h1 { font-size:clamp(36px,4.5vw,65px); margin-bottom:15px; }
 .complete-menu .intro { margin-bottom:18px; }
@@ -161,6 +164,7 @@ th { background:#e5ebe7; }
 #toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:max-content; max-width:90vw; background:#18221c; color:#fff; padding:13px 18px; line-height:1.4; font-size:14px; z-index:50; box-shadow:0 5px 25px #0003; white-space:pre-line; }
 #play-controls { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top:12px; }
 #play-controls:empty { display:none; }
+#play-controls[hidden] { display:none; }
 .help-panel p,.help-panel li { font-size:14px; line-height:1.6; }
 .help-panel li { padding-left:6px; margin-bottom:15px; }
 .help-panel ol { padding-left:24px; }
@@ -175,3 +179,58 @@ th { background:#e5ebe7; }
 @media(max-width:900px){.editor-layout{grid-template-columns:1fr;}#editor-board{max-height:330px}.mode-card strong{font-size:15px}.mode-card span{font-size:11px}.complete-menu h1{font-size:42px}.complete-menu .intro{font-size:15px}.complete-menu{padding:22px}.library-row{align-items:start;flex-direction:column}}
 @media(max-width:700px){.stage{height:max(600px,78vh)}.mode-grid{grid-template-columns:1fr 1fr}.mode-card{padding:13px}.menu-links .action{padding:9px 11px;min-height:38px}.key-legend{gap:10px}.form-grid,.settings-options{grid-template-columns:1fr}.binding-grid{grid-template-columns:1fr}.nav-button{padding:7px 5px;font-size:11px}.wordmark{font-size:11px;letter-spacing:.11em}.solo-stat-grid{grid-template-columns:1fr}.solo-stat-grid>div{padding:12px}.result-grid{gap:8px}.result-player{padding:14px}.complete-menu .eyebrow{font-size:10px}.form-screen,.editor-screen{padding:20px}.properties-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:450px){.check-grid,.result-grid{grid-template-columns:1fr}.overlay.check{display:block;overflow:auto}.check-panel{margin:auto}.result-line.total{font-size:23px}.mode-card strong{font-size:14px}.site-footer{align-items:start}.site-footer>span:last-child{white-space:nowrap}}
+@media(min-width:600px) and (max-width:700px){.mode-grid{grid-template-columns:repeat(3,1fr)}.complete-menu h1{font-size:36px}.mode-card{padding:11px}.mode-card strong{font-size:14px}.menu-links .action{font-size:11px}}
+/* Phone input stays mounted so one player's taps do not interrupt the other. */
+#phone-controls[hidden] { display:none; }
+#phone-controls { position:absolute; inset:0; z-index:2; pointer-events:none; }
+.phone-action,.check-touch { touch-action:none; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
+.check-touch { padding:12px 16px; min-height:48px; border:1px solid #147e8b; background:#dff7f9; font-size:16px; font-weight:700; }
+.check-touch.p2 { background:#ffebe6; border-color:#b15346; }
+.phone-pad { position:absolute; bottom:14px; width:clamp(108px,30vw,145px); padding:9px; background:#e5f8fa; border:1px solid #28b9cb; pointer-events:auto; display:flex; flex-direction:column; gap:7px; text-align:center; border-radius:12px; }
+.phone-pad.p1 { left:12px; }
+.phone-pad.p2 { right:12px; background:#fff0eb; border-color:#e67e6b; }
+.phone-pad>span { font-size:12px; font-weight:700; color:#175a64; }
+.phone-pad.p2>span { color:#853d31; }
+.phone-pad output,.phone-solo-answer output { display:block; font-size:34px; line-height:1.05; font-weight:700; font-variant-numeric:tabular-nums; }
+[data-phone-count][data-feedback=correct] { color:#146b44; }
+[data-phone-count][data-feedback=wrong] { color:#aa3529; }
+.phone-pad small,.phone-solo-answer>span:last-child { font-size:11px; line-height:1.3; min-height:14px; color:#454f4c; }
+.phone-action { min-height:54px; width:100%; border:1px solid #148294; background:#fff; color:#122321; border-radius:8px; font-size:16px; font-weight:700; padding:10px 5px; }
+.phone-pad.p2 .phone-action { border-color:#c66653; }
+.phone-action.submit { background:#18221e; color:#fff; border-color:#18221e; }
+.phone-action:disabled { opacity:.4; }
+.phone-action:active:not(:disabled),.check-touch:active { background:#c1e9ed; }
+.phone-action.submit:active:not(:disabled) { background:#40544a; }
+.phone-options { position:absolute; top:10px; left:50%; transform:translateX(-50%); display:flex; gap:8px; pointer-events:auto; }
+.phone-options button { min-height:44px; padding:9px 14px; border:1px solid #aeb8b1; background:#fff; border-radius:8px; font-size:13px; white-space:nowrap; }
+.phone-round { align-self:center; font-size:11px; color:#454f4c; white-space:nowrap; }
+.phone-solo-count,.phone-solo-submit { position:absolute; bottom:18px; width:clamp(104px,30vw,160px); pointer-events:auto; }
+.phone-solo-count { left:12px; }
+.phone-solo-submit { right:12px; }
+.phone-solo-answer { position:absolute; bottom:17px; left:50%; transform:translateX(-50%); width:90px; text-align:center; display:flex; flex-direction:column; gap:6px; }
+.phone-solo-answer>span { font-size:11px; }
+.is-touch-game .shell { display:flex; flex-direction:column; height:100vh; height:100dvh; padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left)); }
+.is-touch-game .site-header { flex-shrink:0; margin-bottom:8px; }
+.is-touch-game .header-detail { display:none; }
+.is-touch-game .play-region { flex:1; min-height:0; }
+.is-touch-game .stage { aspect-ratio:auto; height:100%; min-height:0; }
+.is-touch-game #scene { position:absolute; top:50px; left:0; width:100%; height:calc(100% - 280px); }
+.is-touch-game:has(#phone-controls.solo) #scene { height:calc(100% - 160px); }
+.is-touch-game .site-footer { display:none; }
+.is-touch-game #match-status { flex-shrink:0; margin-top:6px; font-size:11px; line-height:1.3; padding:6px 10px; }
+.is-touch-game .paused { z-index:3; }
+.is-touch-game .overlay.paused { overflow:auto; display:block; padding:18px; }
+.is-touch-game .pause-panel { margin:auto; padding:18px; }
+.touch-ui input:not([type=range]),.touch-ui select { font-size:16px; }
+@media (orientation:landscape) and (max-height:550px) {
+ .is-touch-game .site-header { min-height:22px; margin-bottom:5px; }
+ .is-touch-game .phone-pad { top:50%; bottom:auto; transform:translateY(-50%); width:120px; gap:4px; padding:6px; }
+ .is-touch-game .phone-pad output { font-size:28px; }
+ .is-touch-game .phone-action { min-height:48px; }
+ .is-touch-game #scene,.is-touch-game:has(#phone-controls.solo) #scene { top:42px; left:145px; width:calc(100% - 290px); height:calc(100% - 48px); }
+ .is-touch-game .phone-options { top:3px; }
+ .is-touch-game .phone-options button { min-height:40px; }
+ .is-touch-game .phone-solo-count,.is-touch-game .phone-solo-submit { top:50%; bottom:auto; transform:translateY(-50%); width:120px; }
+ .is-touch-game .phone-solo-answer { bottom:0; flex-direction:row; align-items:center; justify-content:center; gap:8px; width:250px; }
+ .is-touch-game .phone-solo-answer output { font-size:24px; }
+}

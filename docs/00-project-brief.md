@@ -6,7 +6,7 @@ Version 1.0 • 13 October 2026 • Planning deliverable
 
 Build a desktop browser recreation of the Box Counting minigame in Dr Kawashima’s Brain Training for Nintendo Switch. Two people share one screen and one keyboard, remember the same briefly displayed arrangement, tally separate boxes, and submit independently. The lower accumulated answer time plus five seconds per mistake wins. This scoring rule is directly visible in the downloaded original-game footage and replaces the earlier proposal’s point system.
 
-This package defines gameplay, winning, visuals, level authoring, architecture, implementation stages, and acceptance criteria. It includes source-linked research, local video evidence, a ten-level reconstruction pack, and editable visual targets. It is a complete implementation plan, not a playable game. Markdown is the source of truth; Word is the compiled reading copy.
+This package defines gameplay, winning, visuals, level authoring, architecture, implementation stages, and acceptance criteria. It includes source-linked research, local video evidence, a ten-level reconstruction pack, and editable visual targets. The playable local browser game is now implemented in `dist`. Markdown is the current source of truth; Word retains the original planning snapshot. See [play instructions](08-playable-prototype.md) and [the video/mode expansion](10-video-layouts-and-endless-duel.md) for shipped behavior.
 
 ## What direct video analysis established
 

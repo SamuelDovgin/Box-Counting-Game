@@ -7,6 +7,7 @@ export function boardLayout(level){
   const points=[project(0,0),project(5,0),project(0,5),project(5,5)];
   for(const b of level.boxes)for(const x of [b.x,b.x+b.w])for(const y of [b.y,b.y+b.d])for(const z of [b.z,b.z+b.h])points.push(project(x,y,z));
   const xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+  if(/^(ref-\d{2}|video-official-[12])$/.test(level.id))return {scale:1,x:640,y:312,minY,maxY};
   const scale=Math.min(1,740/(maxX-minX||1),400/(maxY-minY||1));
   return {scale,x:640-(minX+maxX)/2*scale,y:420-(minY+maxY)/2*scale,minY,maxY};
 }
@@ -52,17 +53,17 @@ export function gameSvg(engine,now,bindings,options={}){
   if(!engine.current)return svg;
   const l=engine.current,answerPhase=['answer','preReveal','revealCounting','resultHold'].includes(phase);
   svg+=label(640,95,answerPhase?'How many boxes were there?':'Try to count the boxes.');
-  svg+=label(1230,38,`ROUND ${engine.roundIndex+1}${engine.config.endless?'':` / ${engine.levels.length}`}`,17,'end','#737979',700);
+  if(!options.touch)svg+=label(1230,38,`ROUND ${engine.roundIndex+1}${engine.config.endless?'':` / ${engine.levels.length}`}`,17,'end','#737979',700);
   if(phase==='puzzleCountdown')svg+=label(640,185,String(Math.max(1,Math.ceil((engine.deadline-now)/(engine.roundIndex===0?1000:2000/3)))),100);
   let greenCount=phase==='resultHold'?correctAnswer(l):phase==='revealCounting'?Math.min(correctAnswer(l),Math.floor((now-engine.phaseStartedAt)/engine.rules.revealStepMs)+1):0;
   if(phase!=='answer'||l.presentation.kind==='static'){
-    let motion=null;
-    if(phase==='watch'&&l.presentation.kind==='travel'){const progress=Math.min(1,Math.max(0,(now-engine.phaseStartedAt)/(engine.deadline-engine.phaseStartedAt)));motion={x:l.presentation.from.x+(l.presentation.to.x-l.presentation.from.x)*progress,y:l.presentation.from.y+(l.presentation.to.y-l.presentation.from.y)*progress};}
-    svg+=boardSvg(l,{...options,boxes:['watch','revealCounting','resultHold'].includes(phase),greenCount,motion});
+    const travelling=phase==='watch'&&l.presentation.kind==='travel';
+    const board=boardSvg(l,{...options,boxes:['watch','revealCounting','resultHold'].includes(phase),greenCount});
+    svg+=travelling?`<g data-motion-layer style="transform:translate(${l.presentation.from.x}px,${l.presentation.from.y}px)">${board}</g>`:board;
   }
   if(['revealCounting','resultHold'].includes(phase))svg+=label(640,185,String(greenCount),100,'middle','#111',600);
-  svg+=`<g opacity="${['watch','puzzleCountdown'].includes(phase)?'.08':'1'}">${hud(engine,0,bindings,phase)}${engine.config.solo?'':hud(engine,1,bindings,phase)}</g>`;
-  if(phase==='answer'&&engine.config.answerLimitMs)svg+=label(640,680,`${Math.max(0,Math.ceil((engine.deadline-now)/1000))} seconds left`,20,'middle','#616969');
+  if(!options.touch)svg+=`<g opacity="${['watch','puzzleCountdown'].includes(phase)?'.08':'1'}">${hud(engine,0,bindings,phase)}${engine.config.solo?'':hud(engine,1,bindings,phase)}</g>`;
+  if(!options.touch&&phase==='answer'&&engine.config.answerLimitMs)svg+=label(640,680,`${Math.max(0,Math.ceil((engine.deadline-now)/1000))} seconds left`,20,'middle','#616969');
   return svg;
 }
 export function editorSvg(level,selected,options={}){return `<rect width="1280" height="720" fill="#f7f7f7"/>${label(640,100,'Build your box arrangement',34)}${boardSvg(level,{...options,editor:true,selected})}`;}

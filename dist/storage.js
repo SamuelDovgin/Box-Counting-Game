@@ -1,4 +1,4 @@
-import {clone,DEFAULT_BINDINGS,validBindings,normalizePack,makePack,validateLevel,soloSummary,scoreMatch} from './core.js';
+import {clone,DEFAULT_BINDINGS,validBindings,normalizePack,makePack,validateLevel,soloSummary,scoreMatch,duelSummary} from './core.js';
 const KEY='box-counting-game-v1';
 function readHistory(h){
   if(!h||typeof h.id!=='string'||h.id.length>80||!Array.isArray(h.rounds)||!h.rounds.length||h.rounds.length>50)return null;
@@ -10,10 +10,22 @@ function readHistory(h){
   }
   const solo=h.solo===true,totalRounds=Number.isSafeInteger(h.totalRounds)&&h.totalRounds>=rounds.length?h.totalRounds:rounds.length;
   let summary=solo?soloSummary(rounds):scoreMatch(rounds);
+  let duel=null;
+  const d=h.duel;
+  if(!solo&&d&&['time','points'].includes(d.rule)&&Number.isFinite(d.timeLeadMs)&&d.timeLeadMs>=1000&&d.timeLeadMs<=120000&&Number.isInteger(d.pointsLead)&&d.pointsLead>=1&&d.pointsLead<=20&&Number.isInteger(d.minRounds)&&d.minRounds>=1&&d.minRounds<=50&&Number.isInteger(d.maxRounds)&&d.maxRounds>=0&&d.maxRounds<=500&&(d.maxRounds===0||d.maxRounds>=d.minRounds)){
+    duel={rule:d.rule,timeLeadMs:d.timeLeadMs,pointsLead:d.pointsLead,minRounds:d.minRounds,maxRounds:d.maxRounds};summary=duelSummary(rounds,duel);
+    if(totalRounds>rounds.length){
+      const saved=h.summary;
+      if(!saved||!Array.isArray(saved.players)||saved.players.length!==2||!saved.players.every(p=>p&&Number.isFinite(p.rawMs)&&p.rawMs>=0&&Number.isInteger(p.mistakes)&&p.mistakes>=0&&p.mistakes<=totalRounds)||!Array.isArray(saved.points)||saved.points.length!==2||!saved.points.every(p=>Number.isInteger(p)&&p>=0&&p<=totalRounds)||saved.points[0]+saved.points[1]>totalRounds)return null;
+      const players=saved.players.map(p=>{const adjustedMs=p.rawMs+p.mistakes*5000;return {rawMs:p.rawMs,mistakes:p.mistakes,penaltyMs:p.mistakes*5000,adjustedMs,displayMs:Math.round(adjustedMs/10)*10,correct:totalRounds-p.mistakes};});
+      const values=duel.rule==='points'?saved.points:players.map(p=>p.displayMs),lead=Math.abs(values[0]-values[1]),target=duel.rule==='points'?duel.pointsLead:duel.timeLeadMs,winner=values[0]===values[1]?null:duel.rule==='points'?(values[0]>values[1]?0:1):(values[0]<values[1]?0:1),reached=totalRounds>=duel.minRounds&&lead>=target,cap=duel.maxRounds>0&&totalRounds>=duel.maxRounds;
+      summary={players,points:[...saved.points],rule:duel.rule,lead,target,winner,finished:reached||cap,reason:reached?'lead':cap?'round-cap':null};
+    }
+  }
   if(solo&&totalRounds>rounds.length&&h.summary&&h.summary.total===totalRounds&&Number.isSafeInteger(h.summary.correct)&&h.summary.correct>=0&&h.summary.correct<=totalRounds&&Number.isFinite(h.summary.rawMs)&&h.summary.rawMs>=0)summary={total:totalRounds,correct:h.summary.correct,rawMs:h.summary.rawMs,accuracy:Math.round(100*h.summary.correct/totalRounds)};
-  return {id:h.id,label:String(h.label??'Saved session').slice(0,80),date:Number.isFinite(Date.parse(h.date))?new Date(h.date).toISOString():new Date(0).toISOString(),mode:String(h.mode??'practice').slice(0,20),seed:String(h.seed??'').slice(0,80),solo,assisted:h.assisted===true,totalRounds,voided:Number.isSafeInteger(h.voided)&&h.voided>=0?h.voided:0,summary,rounds};
+  return {id:h.id,label:String(h.label??'Saved session').slice(0,80),date:Number.isFinite(Date.parse(h.date))?new Date(h.date).toISOString():new Date(0).toISOString(),mode:String(h.mode??'practice').slice(0,20),seed:String(h.seed??'').slice(0,80),solo,assisted:h.assisted===true,totalRounds,voided:Number.isSafeInteger(h.voided)&&h.voided>=0?h.voided:0,duel,summary,rounds};
 }
-export function defaultStore(){return {version:1,settings:{bindings:{...DEFAULT_BINDINGS},sound:true,volume:0.25,highContrast:false,reducedMotion:false},levels:[],packs:[],history:[],draft:null};}
+export function defaultStore(){return {version:1,settings:{bindings:{...DEFAULT_BINDINGS},inputMode:'auto',sound:true,volume:0.25,highContrast:false,reducedMotion:false},levels:[],packs:[],history:[],draft:null};}
 export function loadStore(storage=globalThis.localStorage){
   const defaults=defaultStore();
   try{
@@ -21,7 +33,7 @@ export function loadStore(storage=globalThis.localStorage){
     if(raw.length>4_000_000)throw new Error('Saved data is too large.');
     const parsed=JSON.parse(raw);if(parsed.version!==1)throw new Error('Saved data version is unsupported.');
     const s=parsed.settings??{};
-    defaults.settings={bindings:validBindings(s.bindings)?s.bindings:{...DEFAULT_BINDINGS},sound:typeof s.sound==='boolean'?s.sound:true,volume:Number.isFinite(s.volume)?Math.max(0,Math.min(1,s.volume)):0.25,highContrast:s.highContrast===true,reducedMotion:s.reducedMotion===true};
+    defaults.settings={bindings:validBindings(s.bindings)?s.bindings:{...DEFAULT_BINDINGS},inputMode:['auto','touch','keyboard'].includes(s.inputMode)?s.inputMode:'auto',sound:typeof s.sound==='boolean'?s.sound:true,volume:Number.isFinite(s.volume)?Math.max(0,Math.min(1,s.volume)):0.25,highContrast:s.highContrast===true,reducedMotion:s.reducedMotion===true};
     defaults.levels=Array.isArray(parsed.levels)?parsed.levels.filter(l=>!validateLevel(l).length).slice(0,100).map(l=>normalizePack(makePack([l])).levels[0]):[];
     defaults.packs=Array.isArray(parsed.packs)?parsed.packs.slice(0,50).flatMap(p=>{try{return [normalizePack(p)];}catch{return [];}}):[];
     defaults.history=Array.isArray(parsed.history)?parsed.history.slice(0,100).map(readHistory).filter(Boolean):[];

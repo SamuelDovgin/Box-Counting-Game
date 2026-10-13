@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f7f7">
-  <meta name="description" content="Two-player box counting on one keyboard, inspired by the Nintendo Switch memory challenge.">
+  <meta name="description" content="Local box counting for two players sharing a keyboard or phone, inspired by the Nintendo Switch memory challenge.">
   <title>Box Counting — two players, one keyboard</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
@@ -20,12 +20,14 @@
       <div id="stage" class="stage" tabindex="-1">
         <svg id="scene" viewBox="0 0 1280 720" role="img" aria-label="Box counting board"></svg>
         <div id="overlay" class="overlay"></div>
+        <div id="phone-controls" aria-label="Touch game controls" hidden></div>
       </div>
     </section>
+    <div id="match-status" role="status" aria-live="polite" hidden></div>
     <div id="play-controls" aria-label="Game controls"></div>
     <footer class="site-footer">
       <span>Count the separate boxes. Every box matters, even a large one.</span>
-      <span>ESC <span class="footer-separator">/</span> PAUSE</span>
+      <span id="footer-shortcuts">ESC <span class="footer-separator">/</span> PAUSE</span>
     </footer>
   </main>
   <div id="toast" role="status" hidden></div>
