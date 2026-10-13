@@ -12,7 +12,7 @@ The hosted game will be available at [Box Counting](https://samueldovgin.github.
 
 Every push to `main` runs the game tests and deploys `dist/` using `.github/workflows/pages.yml`. The workflow publishes only the playable game; research files and downloaded video references are excluded from the deployed site. No build command or custom domain is needed.
 
-Play Classic (10 reconstructed rounds), Quick (5 fresh puzzles), Full (20 fresh puzzles), Endless solo practice, individual puzzle practice, a Custom match, Video Challenge (12 traced layouts), Pattern Ladder, Motion Gauntlet, or a customizable Endless Duel. Create and save levels, arrange packs, import/export JSON, remap controls, and review or replay completed sessions. Player 1 uses **Z/X**; Player 2 uses **N/M**. Phones automatically show left/right Count and Submit buttons, including a keyboard-free control check. [Phone play and testing](docs/11-phone-controls.md) covers the layout and local-network preview. [Game instructions and release status](docs/08-playable-prototype.md) explain all modes and winning rules.
+Play Classic (10 reconstructed rounds), Quick (5 fresh puzzles), Full (20 fresh puzzles), Endless solo practice, individual puzzle practice, a Custom match, Video Challenge (12 traced layouts), Pattern Ladder, Motion Gauntlet, a customizable Endless Duel, or Difficulty Climb through ten tiers. The Puzzle generator creates batches of 1–50 levels with a target tier, style, presentation and seed; save, export, edit or play them. Each puzzle has a calculated 0–100 difficulty score. [Generation and difficulty scoring](docs/12-puzzle-generator-and-difficulty.md) explains the factors and configurable climb. Create and save levels, arrange packs, import/export JSON, remap controls, and review or replay completed sessions. Player 1 uses **Z/X**; Player 2 uses **N/M**. Phones automatically show left/right Count and Submit buttons, including a keyboard-free control check. [Phone play and testing](docs/11-phone-controls.md) covers the layout and local-network preview. [Game instructions and release status](docs/08-playable-prototype.md) explain all modes and winning rules.
 
 A researched implementation plan for recreating the Box Counting minigame from Dr Kawashima’s Brain Training for Nintendo Switch in a browser, with two players sharing one keyboard.
 
@@ -52,4 +52,4 @@ The Word document is the original planning snapshot. The playable files are unde
 
 ## Verification
 
-Run `node --test tests/*.test.mjs` for the 37 checks covering scores, full matches, timers, pausing, generation, geometry, imports, and persistence. [Release QA](docs/09-release-qa.md) records browser checks and practical limits.
+Run `node --test tests/*.test.mjs` for the 43 checks covering scores, full matches, timers, pausing, generation, geometry, imports, and persistence. [Release QA](docs/09-release-qa.md) records browser checks and practical limits.

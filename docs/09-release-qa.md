@@ -4,7 +4,7 @@ Checked 13 October 2026. This supplements the earlier prototype checks and recor
 
 ## Automated checks
 
-`node --test tests/*.test.mjs` passes **37 tests**. The suite checks the ten reference counts, the large-box/entity distinction, rotations and depth-preserving mirrors, the footage's 29.24 versus 53.34 scoring result, displayed-centisecond draws, a version-locked generator fixture, deterministic distinct packs, and 1,440 generated layouts across all sixteen families and three presets.
+`node --test tests/*.test.mjs` passes **43 tests**. The suite checks the ten reference counts, the large-box/entity distinction, rotations and depth-preserving mirrors, the footage's 29.24 versus 53.34 scoring result, displayed-centisecond draws, a version-locked generator fixture, deterministic distinct packs, and 1,440 generated layouts across all sixteen families and three presets.
 
 Engine checks cover countdown/preview input rejection, independent locks and timers, single settlement, deadlines, correct counters without submission still timing out, fresh generated replacements after pausing, settled-reveal recovery, Endless generation/finish, and a complete twenty-round match. Data checks cover unsupported/overlapping geometry, duplicate IDs, bounded sizes, normalized JSON round trips, rendering bounds, persisted packs, key conflicts, storage write failures, malformed history/drafts, and replayable saved geometry.
 
@@ -54,3 +54,6 @@ The expanded suite adds source-layout checks, deterministic progressive/motion c
 ## Phone controls
 
 Added automatic phone detection, keyboard-free touch checks, persistent side controls, solo left/right controls, viewport/safe-area layouts, and a saved input-mode override. The five additional tests cover portrait/landscape detection, held/multiple contacts, ignored previews and independent locks, touch-only readiness, and setting compatibility. [Phone QA](11-phone-controls.md) records the completed pointer-only match, solo result, and viewport measurements.
+
+
+The latest expansion adds a batch Puzzle generator, six-factor 0–100 puzzle ratings, saved-level tier filtering, and a customizable ten-tier Difficulty Climb. See [generator, scoring, and verification](12-puzzle-generator-and-difficulty.md).

@@ -1,5 +1,7 @@
 import {clone,DEFAULT_BINDINGS,ALTERNATE_BINDINGS,correctAnswer,keyName,validBinding,validBindings,validateLevel,normalizePack,makePack,rotateLevel,mirrorLevel} from './core.js';
 import {generateLevel,generateLevels,generateChallenge,seededRandom} from './generator.js';
+import {generateRatedLevels} from './rated-generator.js';
+import {rateLevel} from './difficulty.js';
 import {GameEngine} from './engine.js';
 import {GameScene} from './scene.js';
 import {loadStore,saveStore,addHistory} from './storage.js';
@@ -15,7 +17,7 @@ let lastPhoneControls='',lastPhoneState='';
 let screen='loading',pack,videoPack,rules,engine=null,store,lastOverlay='',lastControls='',toastTimer,draftTimer,lastCue='',settingsBack='menu';
 let storageWarning='';
 try{const saved=loadStore();store=saved.data;storageWarning=saved.error??'';if(saved.newUser)store.settings.reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch{store=loadStore({getItem:()=>null}).data;storageWarning='Browser storage is unavailable. You can play and export your work, but it will not survive a reload.';}
-const ui={checked:[false,false,false,false],config:null,setup:null,editor:null,captureKey:null,returnTo:null,detailRecord:null,detailsBack:'results',packDraft:null,packAddKey:'reference:0',touch:false};
+const ui={checked:[false,false,false,false],config:null,setup:null,editor:null,captureKey:null,returnTo:null,detailRecord:null,detailsBack:'results',packDraft:null,packAddKey:'reference:0',touch:false,generator:null,libraryTier:'all'};
 function detectControls(){ui.touch=phoneControls({width:window.innerWidth,height:window.innerHeight,coarse:coarsePointer.matches,touchPoints:navigator.maxTouchPoints??0},store.settings.inputMode);}
 detectControls();
 const id=prefix=>`${prefix}-${crypto.randomUUID().slice(0,12)}`;
@@ -32,17 +34,18 @@ function baseConfig(label,mode){return {label,mode,solo:false,endless:false,leve
 function mode(modeName){
   ui.returnTo=null;
   if(modeName==='classic'){const config=baseConfig('Classic','classic');config.source='classic';config.levels=clone(pack.levels);checkControls(config);return;}
-  ui.setup={mode:modeName,players:'2',rounds:modeName==='full'||modeName==='ladder'?20:modeName==='quick'?5:10,source:'generated',difficulty:['ladder','motion','duel'].includes(modeName)?'gentle':'standard',family:'mixed',seed:seed(),previewMs:modeName==='practice'?2500:0,answerLimitMs:modeName==='duel'?15000:0,shuffle:false,practiceLevel:'reference:0',duelRule:'time',timeLead:20,pointsLead:3,minRounds:5,maxRounds:0,escalate:true};
+  ui.setup={mode:modeName,players:'2',rounds:modeName==='full'||modeName==='ladder'||modeName==='climb'?20:modeName==='quick'?5:10,source:'generated',difficulty:['ladder','motion','duel'].includes(modeName)?'gentle':'standard',family:'mixed',seed:seed(),previewMs:modeName==='practice'?2500:0,answerLimitMs:modeName==='duel'?15000:0,shuffle:false,practiceLevel:'reference:0',duelRule:'time',timeLead:20,pointsLead:3,minRounds:5,maxRounds:0,escalate:true,startTier:1,maxTier:10,tierStep:1,riseEvery:2,ratedPresentation:'auto'};
   go('setup');
 }
 function buildSetup(form){
   const values=Object.fromEntries(new FormData(form));
   const c={...ui.setup,...values,shuffle:!!form.elements.shuffle?.checked};ui.setup=c;
-  const label={quick:'Quick match',full:'Full match',endless:'Endless practice',practice:'Puzzle practice',custom:'Custom match',video:'Video challenge',ladder:'Pattern ladder',motion:'Motion gauntlet',duel:'Endless duel'}[c.mode];
-  const config=baseConfig(label,c.mode);config.solo=c.mode==='endless'||c.mode==='practice'||c.players==='1';config.endless=['endless','duel'].includes(c.mode);config.seed=String(c.seed||seed()).slice(0,80);config.difficulty=c.difficulty;config.family=c.family??'mixed';config.previewMs=Number(c.previewMs);config.answerLimitMs=['custom','duel'].includes(c.mode)?Number(c.answerLimitMs):0;
+  const label={quick:'Quick match',full:'Full match',endless:'Endless practice',practice:'Puzzle practice',custom:'Custom match',video:'Video challenge',ladder:'Pattern ladder',motion:'Motion gauntlet',duel:'Endless duel',climb:'Difficulty climb'}[c.mode];
+  const config=baseConfig(label,c.mode);config.solo=c.mode==='endless'||c.mode==='practice'||c.players==='1';config.endless=['endless','duel'].includes(c.mode);config.seed=String(c.seed||seed()).slice(0,80);config.difficulty=c.difficulty;config.family=c.family??'mixed';config.previewMs=c.mode==='climb'?0:Number(c.previewMs);config.answerLimitMs=['custom','duel'].includes(c.mode)?Number(c.answerLimitMs):0;
   if(c.mode==='duel'){config.solo=false;config.escalate=form.elements.escalate.checked;config.duel={rule:c.duelRule,timeLeadMs:Number(c.timeLead)*1000,pointsLead:Number(c.pointsLead),minRounds:Number(c.minRounds),maxRounds:Number(c.maxRounds)};new GameEngine(config,rules);}
   if(config.previewMs)config.assisted=true;
-  if(c.mode==='video'){config.source='authored';config.levels=clone(videoPack.levels);}
+  if(c.mode==='climb'){config.climb={startTier:Number(c.startTier),maxTier:Number(c.maxTier),step:Number(c.tierStep),every:Number(c.riseEvery)};config.ratedPresentation=c.ratedPresentation;config.levels=generateRatedLevels(config.seed,Number(c.rounds),config.climb.startTier,config.family,config.ratedPresentation,config.climb);}
+  else if(c.mode==='video'){config.source='authored';config.levels=clone(videoPack.levels);}
   else if(c.mode==='ladder'||c.mode==='motion'){const count=Number(c.rounds);if(!Number.isInteger(count)||count<1||count>50)throw new Error('Choose 1–50 rounds.');config.levels=generateChallenge(config.seed,count,c.mode,config.difficulty);}
   else if(c.mode==='practice'){
     const item=availableLevels(context()).find(l=>l.key===c.practiceLevel);if(!item)throw new Error('Choose an available puzzle.');config.levels=[clone(item.level)];config.source='authored';
@@ -103,6 +106,11 @@ function testLevels(levels,solo=true,label='Editor test',returnTo='editor'){
   const errors=levels.flatMap(validateLevel);if(errors.length){toast(errors[0]);return;}
   ui.returnTo=returnTo;const config=baseConfig(label,'practice');config.source='authored';config.solo=solo;config.levels=clone(levels);config.assisted=true;checkControls(config);
 }
+function openGenerator(){ui.generator??={tier:5,count:6,family:'mixed',presentation:'auto',seed:seed(),levels:[]};go('generator');}
+function readGenerator(form){const v=Object.fromEntries(new FormData(form));return {tier:Number(v.tier),count:Number(v.count),family:v.family,presentation:v.presentation,seed:String(v.seed).trim().slice(0,80)||seed()};}
+function generateBatch(form){const values=readGenerator(form),levels=generateRatedLevels(values.seed,values.count,values.tier,values.family,values.presentation);ui.generator={...values,levels,generatedTier:values.tier,generatedSeed:values.seed,savedPackId:null};render();}
+function generatedPack(){const g=ui.generator;return makePack(g.levels,`Generated target tier ${g.generatedTier} · ${g.generatedSeed}`.slice(0,80),g.savedPackId??id('pack'));}
+function saveGeneratedLevel(index){const l=ui.generator.levels[index];if(!l||store.levels.some(s=>s.id===l.id))return;if(store.levels.length>=100){toast('Your library already has 100 levels. Export or remove an unused level first.');return;}store.levels.push(clone(l));persist('Level saved to its calculated difficulty tier.');render();}
 function exportJSON(data,name){
   const blob=new Blob([JSON.stringify(data,null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`${name.replace(/[^a-z0-9_-]/gi,'-').slice(0,80)||'box-counting'}.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
@@ -125,11 +133,19 @@ function action(target){
   else if(a==='pause')pause();
   else if(a==='resume')resume();
   else if(a==='finish-practice'){engine.finishPractice(now());go('game');}
-  else if(a==='again'){const config=clone(engine.config);if(config.source==='generated'){config.seed=seed();if(!config.endless)config.levels=['ladder','motion'].includes(config.mode)?generateChallenge(config.seed,config.levels.length,config.mode,config.difficulty):generateLevels(config.seed,config.levels.length,config.difficulty,config.family);}checkControls(config);}
+  else if(a==='again'){const config=clone(engine.config);if(config.source==='generated'){config.seed=seed();if(!config.endless)config.levels=config.climb?generateRatedLevels(config.seed,config.levels.length,config.climb.startTier,config.family,config.ratedPresentation,config.climb):['ladder','motion'].includes(config.mode)?generateChallenge(config.seed,config.levels.length,config.mode,config.difficulty):generateLevels(config.seed,config.levels.length,config.difficulty,config.family);}checkControls(config);}
   else if(a==='settings')settings();
   else if(a==='settings-back'){ui.captureKey=null;go(settingsBack);}
   else if(a==='bind'){ui.captureKey=target.dataset.key;render();}
   else if(a==='default-keys'||a==='alternate-keys'){store.settings.bindings={...(a==='default-keys'?DEFAULT_BINDINGS:ALTERNATE_BINDINGS)};ui.captureKey=null;persist('Keyboard layout saved.');render();}
+  else if(a==='generator')openGenerator();
+  else if(a==='return-generator')go('generator');
+  else if(a==='generator-seed'){Object.assign(ui.generator,readGenerator(document.querySelector('#generator-form')),{seed:seed()});render();}
+  else if(a==='generated-save')saveGeneratedLevel(Number(target.dataset.index));
+  else if(a==='generated-edit')openEditor(ui.generator.levels[Number(target.dataset.index)],{fresh:true});
+  else if(a==='generated-pack'){const p=generatedPack();if(store.packs.some(existing=>existing.id===p.id)){toast('This batch is already saved as a pack.');return;}if(store.packs.length>=50){toast('Your library already has 50 packs.');return;}store.packs.push(normalizePack(p));ui.generator.savedPackId=p.id;persist('Generated pack saved. Find it in My levels and packs.');render();}
+  else if(a==='generated-solo'||a==='generated-duel')testLevels(ui.generator.levels,a==='generated-solo','Generated puzzles','generator');
+  else if(a==='generated-export'){const p=generatedPack();exportJSON(p,p.title);}
   else if(a==='editor')openEditor();
   else if(a==='library')go('library');
   else if(a==='history')go('history');
@@ -195,7 +211,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('submit',event=>{
   event.preventDefault();audio.unlock();
-  try{if(event.target.id==='setup-form')buildSetup(event.target);else if(event.target.id==='settings-form'){
+  try{if(event.target.id==='setup-form')buildSetup(event.target);else if(event.target.id==='generator-form')generateBatch(event.target);else if(event.target.id==='settings-form'){
     const f=event.target.elements;store.settings.inputMode=f.inputMode.value;store.settings.sound=f.sound.checked;store.settings.volume=Number(f.volume.value);store.settings.highContrast=f.highContrast.checked;store.settings.reducedMotion=f.reducedMotion.checked;detectControls();audio.configure(store.settings);persist('Settings saved.');
     if(ui.config)ui.config.reducedMotion=store.settings.reducedMotion;go(settingsBack);
   }}catch(error){toast(error.message);}
@@ -205,6 +221,7 @@ document.addEventListener('input',event=>{
   if(screen==='pack-builder'&&event.target.id==='pack-title')ui.packDraft.title=event.target.value;
 });
 document.addEventListener('change',event=>{
+  if(event.target.id==='library-tier'){ui.libraryTier=event.target.value;render();}
   if(event.target.id==='pack-import'){importJSON(event.target.files[0]);event.target.value='';}
   if(screen==='editor'){
     const e=ui.editor,l=e.level;
@@ -240,6 +257,8 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){held.clear
 window.addEventListener('resize',()=>{detectControls();render();});
 coarsePointer.addEventListener('change',()=>{detectControls();render();});
 
+const ratingCache=new WeakMap();
+function currentRating(){const l=engine?.current;if(!l)return null;if(!ratingCache.has(l))ratingCache.set(l,rateLevel(l));return ratingCache.get(l);}
 function render(time=now()){
   stage.dataset.screen=screen;stage.dataset.phase=engine?.phase??'';document.body.classList.toggle('is-playing',['game','paused'].includes(screen));
   document.body.classList.toggle('touch-ui',ui.touch);document.body.classList.toggle('is-touch-game',ui.touch&&['game','paused'].includes(screen));
@@ -250,8 +269,9 @@ function render(time=now()){
   const uiResult=renderUI(context());const overlayKey=uiResult.cls+uiResult.html;if(overlayKey!==lastOverlay){overlay.className=`overlay ${uiResult.cls}`;overlay.innerHTML=uiResult.html;lastOverlay=overlayKey;}
   if(screen==='game'||screen==='paused')sceneView.draw(engine,time,store.settings.bindings,{...store.settings,touch:ui.touch});
   else sceneView.update(`<rect width="1280" height="720" fill="#f7f7f7"/>${['menu','checks'].includes(screen)?`<g opacity=".17" transform="translate(310,20)">${boardSvg(pack?.levels[1]??{boxes:[],revealOrder:[]})}</g>`:''}`,null,time);
-  matchStatus.hidden=!(['game','paused'].includes(screen)&&engine?.config.duel);
-  if(!matchStatus.hidden){const d=engine.duelStatus(),unit=d.rule==='points'?'points':'seconds',scores=d.rule==='points'?d.points: d.players.map(p=>(p.displayMs/1000).toFixed(2)),lead=d.rule==='points'?d.lead:(d.lead/1000).toFixed(2),target=d.rule==='points'?d.target:d.target/1000;const text=`P1 ${scores[0]} · P2 ${scores[1]} ${unit} | Lead ${lead} / ${target} | ${engine.rounds.length} / ${engine.config.duel.minRounds} minimum rounds${engine.config.duel.maxRounds?` | Cap ${engine.config.duel.maxRounds}`:''}`;if(matchStatus.textContent!==text)matchStatus.textContent=text;}
+  matchStatus.hidden=!(['game','paused'].includes(screen)&&(engine?.config.duel||engine?.config.climb));
+  if(!matchStatus.hidden&&engine.config.climb){const r=currentRating(),text=r?`Difficulty · Tier ${r.tier} · ${r.label} · ${r.score}/100`:'Difficulty climb · Get ready';if(matchStatus.textContent!==text)matchStatus.textContent=text;}
+  else if(!matchStatus.hidden){const d=engine.duelStatus(),unit=d.rule==='points'?'points':'seconds',scores=d.rule==='points'?d.points: d.players.map(p=>(p.displayMs/1000).toFixed(2)),lead=d.rule==='points'?d.lead:(d.lead/1000).toFixed(2),target=d.rule==='points'?d.target:d.target/1000;const text=`P1 ${scores[0]} · P2 ${scores[1]} ${unit} | Lead ${lead} / ${target} | ${engine.rounds.length} / ${engine.config.duel.minRounds} minimum rounds${engine.config.duel.maxRounds?` | Cap ${engine.config.duel.maxRounds}`:''}`;if(matchStatus.textContent!==text)matchStatus.textContent=text;}
   const controls=screen==='game'?`${engine.phase==='answer'?`<div class="touch-player"><span>P1</span><button data-action="count" data-player="0" ${engine.submissions[0]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p1Count))}</kbd></button><button data-action="submit" data-player="0" ${engine.submissions[0]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p1Submit))}</kbd></button></div>${engine.config.solo?'':`<div class="touch-player p2"><span>P2</span><button data-action="count" data-player="1" ${engine.submissions[1]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p2Count))}</kbd></button><button data-action="submit" data-player="1" ${engine.submissions[1]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p2Submit))}</kbd></button></div>`}`:''}<div class="game-options"><button data-action="pause">Pause · Esc</button>${engine.config.endless&&!engine.config.duel?'<button data-action="finish-practice">Finish practice</button>':''}</div>`:'';
   playControls.hidden=ui.touch;if(controls!==lastControls){playControls.innerHTML=controls;lastControls=controls;}
   renderPhoneControls(time);

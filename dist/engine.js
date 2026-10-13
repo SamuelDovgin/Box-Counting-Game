@@ -1,8 +1,11 @@
 import {clone,correctAnswer,mirrorLevel,soloSummary,scoreMatch,levelSignature,duelSummary} from './core.js';
 import {generateLevel,familyForLevel,difficultyAt} from './generator.js';
+import {generateRatedLevel} from './rated-generator.js';
+import {climbTier,validateClimb} from './difficulty.js';
 export class GameEngine {
   constructor(config,rules){
     this.config=clone(config);this.rules=rules;this.levels=clone(config.levels??[]);this.roundIndex=0;this.rounds=[];this.voided=0;
+    if(config.climb){validateClimb(config.climb);if(config.endless||!['auto','static','travel'].includes(config.ratedPresentation))throw new Error('Difficulty Climb needs a finite match and valid presentation.');}
     this.phase='idle';this.paused=false;this.phaseStartedAt=0;this.deadline=Infinity;this.answerOpenedAt=0;this.duelCache=null;
     if(config.duel){const d=config.duel;if(config.solo||!config.endless||!['time','points'].includes(d.rule)||!Number.isFinite(d.timeLeadMs)||d.timeLeadMs<1000||d.timeLeadMs>120000||!Number.isInteger(d.pointsLead)||d.pointsLead<1||d.pointsLead>20||!Number.isInteger(d.minRounds)||d.minRounds<1||d.minRounds>50||!Number.isInteger(d.maxRounds)||d.maxRounds<0||d.maxRounds>500||d.maxRounds>0&&d.maxRounds<d.minRounds)throw new Error('Choose a valid duel lead and a round cap at least as large as the minimum rounds.');}
     this.guesses=[0,0];this.submissions=[null,null];this.current=null;this.effects=[];this.assisted=!!config.assisted;this.recorded=false;
@@ -54,7 +57,7 @@ export class GameEngine {
       if(this.config.source==='authored'){this.current=mirrorLevel(this.current);this.assisted=true;}
       else{
         const old=levelSignature(this.current),family=familyForLevel(this.current);let fresh;
-        for(let a=0;a<100;a++){fresh=generateLevel(`${this.config.seed}|reserve|${this.voided}|${a}`,this.roundIndex,this.roundDifficulty(),family);if(levelSignature(fresh)!==old)break;}
+        for(let a=0;a<100;a++){fresh=this.config.climb?generateRatedLevel(`${this.config.seed}|reserve|${this.voided}|${a}`,this.roundIndex,climbTier(this.config.climb,this.roundIndex),this.config.family,this.config.ratedPresentation):generateLevel(`${this.config.seed}|reserve|${this.voided}|${a}`,this.roundIndex,this.roundDifficulty(),family);if(levelSignature(fresh)!==old)break;}
         this.current=fresh;
       }
       this.resetRound(now);

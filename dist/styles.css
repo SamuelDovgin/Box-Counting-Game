@@ -234,3 +234,19 @@ th { background:#e5ebe7; }
  .is-touch-game .phone-solo-answer { bottom:0; flex-direction:row; align-items:center; justify-content:center; gap:8px; width:250px; }
  .is-touch-game .phone-solo-answer output { font-size:24px; }
 }
+
+/* Generated batches share the editor's isometric visual language. */
+.generated-toolbar { border-top:1px solid #cdd4d0; margin-top:24px; padding:18px 0; }
+.generated-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.generated-card { border:1px solid #cdd4d0; background:#fff; padding:16px; min-width:0; }
+.generated-card h3 { margin:0 0 10px; font-size:16px; }
+.generated-card svg { display:block; width:100%; height:200px; background:#f7f7f7; }
+.generated-card .action { font-size:12px; min-height:40px; padding:10px; }
+.rating-card { border-left:3px solid #168b69; padding:10px 12px; background:#edf5f0; margin:12px 0; font-size:13px; }
+.rating-card strong { display:block; }
+.rating-card meter { width:100%; height:18px; display:block; margin:8px 0; }
+.rating-card summary { cursor:pointer; }
+.rating-card dl { margin:10px 0; }
+.rating-card dl>div { display:flex; justify-content:space-between; gap:12px; padding:4px 0; }
+.rating-card dd { margin:0; }
+@media(max-width:700px) { .generated-grid { grid-template-columns:1fr; } }

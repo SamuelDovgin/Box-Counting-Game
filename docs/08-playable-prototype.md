@@ -78,8 +78,11 @@ Run:
 node --test tests/*.test.mjs
 ```
 
-All 37 tests pass, including 1,440 generated layouts across three difficulty presets and sixteen families, deterministic packs, a complete 20-round match, exact observed scoring, timeouts, locking, pause reserves, Endless termination, import/export, rendering bounds, corrupted-storage recovery, lead/cap/point rules, long-duel history, progressive campaigns, and retained geometry during travel. See [release QA](09-release-qa.md) for browser evidence and limits.
+All 43 tests pass, including 1,440 generated layouts across three difficulty presets and sixteen families, deterministic packs, a complete 20-round match, exact observed scoring, timeouts, locking, pause reserves, Endless termination, import/export, rendering bounds, corrupted-storage recovery, lead/cap/point rules, long-duel history, progressive campaigns, and retained geometry during travel. See [release QA](09-release-qa.md) for browser evidence and limits.
 
 ## Fidelity and later extensions
 
 This is a complete local Box Counting release with the implemented modes and authoring tools, not exact original emulation or the other Brain Training minigames. Original fonts, travel curves, sonic cues, rare rules, and precise timing remain approximations. The editor does not include a timeline scrubber or free-form travel endpoint editor. Online multiplayer, accounts, leaderboards, gamepads, adaptive difficulty, and separate direct-number entry are future extensions. Real keyboard rollover and independent Firefox/Safari checks require hardware/browser testing beyond the current in-app browser QA.
+
+
+The latest expansion adds a batch Puzzle generator, six-factor 0–100 puzzle ratings, saved-level tier filtering, and a customizable ten-tier Difficulty Climb. See [generator, scoring, and verification](12-puzzle-generator-and-difficulty.md).
