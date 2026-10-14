@@ -1,16 +1,9 @@
+import {project,boxFaces,paintOrder,boardLayout} from './geometry.js';
+export {project,boardLayout} from './geometry.js';
 import {correctAnswer,keyName} from './core.js';
 export const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export const project=(x,y,z=0)=>[54*(x-y),31.18*(x+y)-62.35*z];
 export const label=(x,y,t,size=42,anchor='middle',color='#111',weight=400)=>`<text x="${x}" y="${y}" font-family="Arial,Helvetica,sans-serif" font-size="${size}" font-weight="${weight}" text-anchor="${anchor}" fill="${color}">${esc(t)}</text>`;
 function poly(points,fill,stroke='#222',width=2,attrs=''){return `<polygon ${attrs} points="${points.map(([x,y])=>`${x.toFixed(2)},${y.toFixed(2)}`).join(' ')}" fill="${fill}" stroke="${stroke}" stroke-width="${width}" stroke-linejoin="round"/>`;}
-export function boardLayout(level){
-  const points=[project(0,0),project(5,0),project(0,5),project(5,5)];
-  for(const b of level.boxes)for(const x of [b.x,b.x+b.w])for(const y of [b.y,b.y+b.d])for(const z of [b.z,b.z+b.h])points.push(project(x,y,z));
-  const xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
-  if(/^(ref-\d{2}|video-official-[12])$/.test(level.id))return {scale:1,x:640,y:312,minY,maxY};
-  const scale=Math.min(1,740/(maxX-minX||1),400/(maxY-minY||1));
-  return {scale,x:640-(minX+maxX)/2*scale,y:420-(minY+maxY)/2*scale,minY,maxY};
-}
 function grid(options){
   let out='';
   if(options.editor)for(let y=0;y<5;y++)for(let x=0;x<5;x++)out+=poly([project(x,y),project(x+1,y),project(x+1,y+1),project(x,y+1)],'#ffffff01','none',0,`data-cell="${x},${y}" class="editor-cell"`);
@@ -18,18 +11,18 @@ function grid(options){
   return out;
 }
 function cube(b,green,options){
-  const {x,y,z,w,d,h}=b,top=z+h;
+  const faces=boxFaces(b);
   const colors=green?['#25f34b','#0bcb38','#009a24']:options.highContrast?['#fff','#bbb','#666']:['#fff','#d9d9d9','#999'];
   const selected=options.selected===b.id,stroke=selected?'#2078b8':'#222',width=selected?4:2;
   return `<g data-box-id="${esc(b.id)}">`+
-    poly([project(x,y+d,z),project(x+w,y+d,z),project(x+w,y+d,top),project(x,y+d,top)],colors[1],stroke,width)+
-    poly([project(x+w,y,z),project(x+w,y+d,z),project(x+w,y+d,top),project(x+w,y,top)],colors[2],stroke,width)+
-    poly([project(x,y,top),project(x+w,y,top),project(x+w,y+d,top),project(x,y+d,top)],colors[0],stroke,width)+`</g>`;
+    poly(faces[0],colors[1],stroke,width)+
+    poly(faces[1],colors[2],stroke,width)+
+    poly(faces[2],colors[0],stroke,width)+`</g>`;
 }
 export function boardSvg(level,{boxes=true,greenCount=0,motion=null,...options}={}){
   const layout=boardLayout(level),offset=motion??{x:0,y:0};
   const green=new Set(level.revealOrder.slice(0,greenCount));
-  const sorted=level.boxes.slice().sort((a,b)=>(a.x+a.y+a.z)-(b.x+b.y+b.z)||a.id.localeCompare(b.id));
+  const sorted=boxes?paintOrder(level.boxes).items.map(item=>item.box):[];
   return `<g data-board transform="translate(${layout.x+offset.x},${layout.y+offset.y}) scale(${layout.scale})">${grid(options)}${boxes?sorted.map(b=>cube(b,green.has(b.id),options)).join(''):''}</g>`;
 }
 function hud(engine,player,bindings,phase){
@@ -59,10 +52,10 @@ export function gameSvg(engine,now,bindings,options={}){
   if(phase!=='answer'||l.presentation.kind==='static'){
     const travelling=phase==='watch'&&l.presentation.kind==='travel';
     const board=boardSvg(l,{...options,boxes:['watch','revealCounting','resultHold'].includes(phase),greenCount});
-    svg+=travelling?`<g data-motion-layer style="transform:translate(${l.presentation.from.x}px,${l.presentation.from.y}px)">${board}</g>`:board;
+    svg+=travelling?`<g data-motion-layer style="transform:translate3d(${l.presentation.from.x}px,${l.presentation.from.y}px,0)">${board}</g>`:board;
   }
   if(['revealCounting','resultHold'].includes(phase))svg+=label(640,185,String(greenCount),100,'middle','#111',600);
-  if(!options.touch)svg+=`<g opacity="${['watch','puzzleCountdown'].includes(phase)?'.08':'1'}">${hud(engine,0,bindings,phase)}${engine.config.solo?'':hud(engine,1,bindings,phase)}</g>`;
+  if(!options.touch&&answerPhase)svg+=`<g>${hud(engine,0,bindings,phase)}${engine.config.solo?'':hud(engine,1,bindings,phase)}</g>`;
   if(!options.touch&&phase==='answer'&&engine.config.answerLimitMs)svg+=label(640,680,`${Math.max(0,Math.ceil((engine.deadline-now)/1000))} seconds left`,20,'middle','#616969');
   return svg;
 }

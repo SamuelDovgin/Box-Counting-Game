@@ -67,7 +67,7 @@ test('travelling geometry is mounted once across frames and animation freezes on
 test('motion fallback remains linear, bounded and only moves the parent layer',()=>{
  const p={from:{x:1000,y:-450},to:{x:-1000,y:450}};assert.deepEqual(travelOffset(p,.5),{x:0,y:0});assert.deepEqual(travelOffset(p,-1),p.from);assert.deepEqual(travelOffset(p,2),p.to);
  for(let i=1;i<100;i++)assert.ok(travelOffset(p,i/100).x<travelOffset(p,(i-1)/100).x);
- const layer={style:{}},el={innerHTML:'',querySelector:()=>layer},view=new GameScene(el),e={phase:'watch',phaseStartedAt:100,current:{id:'test',presentation:{...p,kind:'travel',durationMs:1000}}};view.update('geometry',e,600);assert.equal(layer.style.transform,'translate(0px,0px)');view.update('geometry',e,850);assert.equal(layer.style.transform,'translate(-500px,225px)');
+ const layer={style:{}},el={innerHTML:'',querySelector:()=>layer},view=new GameScene(el),e={phase:'watch',phaseStartedAt:100,current:{id:'test',presentation:{...p,kind:'travel',durationMs:1000}}};view.update('geometry',e,600);assert.equal(layer.style.transform,'translate3d(0px,0px,0)');view.update('geometry',e,850);assert.equal(layer.style.transform,'translate3d(-500px,225px,0)');
 });
 test('watch frames reuse generated scene markup and invalidate it for new puzzle or changed contrast',()=>{
  let draws=0;const el={innerHTML:'',querySelector:()=>({style:{}})},view=new GameScene(el,()=>`scene-${++draws}`),e={phase:'watch',phaseStartedAt:0,current:generateLevel('cached',0,'gentle','travel')};

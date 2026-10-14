@@ -1,5 +1,5 @@
 // A transparent design estimate, not a measured player-performance rating.
-export const DIFFICULTY_VERSION=1;
+export const DIFFICULTY_VERSION=2;
 export const TIER_NAMES=['Warm-up','Easy','Tricky','Moderate','Challenging','Hard','Expert','Extreme','Master','Maximum'];
 const clamp=(v,min=0,max=1)=>Math.max(min,Math.min(max,v));
 export function rateLevel(level){
@@ -15,7 +15,7 @@ export function rateLevel(level){
   const centers=boxes.map(b=>[b.x+b.w/2,b.y+b.d/2]),spread=n?Math.hypot(Math.max(...centers.map(c=>c[0]))-Math.min(...centers.map(c=>c[0])),Math.max(...centers.map(c=>c[1]))-Math.min(...centers.map(c=>c[1]))):0;
   const moving=p.kind==='travel',speed=moving?Math.hypot(p.to.x-p.from.x,p.to.y-p.from.y)/(p.durationMs/1000):0;
   const parts={
-    count:30*clamp((n-1)/49),
+    count:30*clamp((n-1)/18),
     stacking:12*clamp((maxHeight-1)/6+(n?raised/n:0)*.5),
     shapes:8*clamp((large? .5:0)+Math.max(0,sizes-1)*.25),
     spread:n>1?10*clamp(spread/Math.sqrt(32)*.4+Math.min(4,Math.max(0,groups-1))/4*.3+ground.size/25*.3):0,

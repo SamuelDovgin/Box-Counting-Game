@@ -1,3 +1,4 @@
+import {visibilityReport,motionExposure} from './geometry.js';
 export const DEFAULT_BINDINGS = Object.freeze({p1Count:'KeyZ',p1Submit:'KeyX',p2Count:'KeyN',p2Submit:'KeyM'});
 export const ALTERNATE_BINDINGS = Object.freeze({p1Count:'KeyA',p1Submit:'KeyS',p2Count:'KeyK',p2Submit:'KeyL'});
 export const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -7,7 +8,7 @@ export const keyName = (code) => code.startsWith('Key') ? code.slice(3) : code.s
 export function validBinding(code) { return /^(Key[A-Z]|Digit[0-9]|Numpad[0-9]|NumpadAdd|NumpadSubtract|Space|ArrowUp|ArrowDown|ArrowLeft|ArrowRight)$/.test(code); }
 export function validBindings(bindings) { const values = Object.keys(DEFAULT_BINDINGS).map(k=>bindings?.[k]); return values.every(validBinding) && new Set(values).size === 4; }
 
-export function validateLevel(level, {allowEmpty=false}={}) {
+export function validateLevel(level, {allowEmpty=false,geometryOnly=false}={}) {
   const errors=[];
   if (!level || typeof level!=='object' || level.boardSize!==5 || !Array.isArray(level.boxes)) return ['Use a five by five board and a box array.'];
   if (typeof level.id!=='string' || !level.id.length || level.id.length>80) errors.push('Level ID must contain 1–80 characters.');
@@ -36,21 +37,22 @@ export function validateLevel(level, {allowEmpty=false}={}) {
   const p=level.presentation;
   if(!p || !['static','travel'].includes(p.kind) || !Number.isInteger(p.durationMs)||p.durationMs<(p.kind==='travel'?300:100)||p.durationMs>10000)errors.push('Choose a valid viewing duration from 100–10000 ms (travel starts at 300 ms).');
   else if(p.kind==='travel')for(const k of ['from','to'])if(!p[k]||!Number.isFinite(p[k].x)||!Number.isFinite(p[k].y)||Math.abs(p[k].x)>1600||Math.abs(p[k].y)>1000)errors.push('Travel coordinates are outside the supported range.');
+  if(!geometryOnly&&!errors.length){const visibility=visibilityReport(level);if(visibility.cyclic)errors.push('This arrangement has ambiguous depth ordering. Move or shorten the overlapping towers.');if(!motionExposure(level).valid)errors.push('Every box must enter the visible canvas fully. Center the travel path or increase its duration.');if(visibility.hidden.length)errors.push(`Every box needs a fully unobstructed face. Hidden or obscured: ${visibility.hidden.slice(0,6).join(', ')}. Move, shorten or remove the blocking boxes.`);}
   return [...new Set(errors)];
 }
 
-export function validatePack(pack){
+export function validatePack(pack,{geometryOnly=false}={}){
   if(!pack||pack.schemaVersion!==1||!Array.isArray(pack.levels))return ['Use a version 1 level pack.'];
   const errors=[];
   if(typeof pack.title!=='string'||!pack.title.trim()||pack.title.length>80)errors.push('Pack title must contain 1–80 characters.');
   if(typeof pack.id!=='string'||!pack.id||pack.id.length>80)errors.push('Pack ID must contain 1–80 characters.');
   if(pack.levels.length<1||pack.levels.length>50)return [...errors,'A pack needs 1–50 levels.'];
   const ids=new Set();
-  pack.levels.forEach((level,index)=>{if(ids.has(level?.id))errors.push(`Level ${index+1}: duplicate ID.`);ids.add(level?.id);validateLevel(level).forEach(error=>errors.push(`Level ${index+1}: ${error}`));});
+  pack.levels.forEach((level,index)=>{if(ids.has(level?.id))errors.push(`Level ${index+1}: duplicate ID.`);ids.add(level?.id);validateLevel(level,{geometryOnly}).forEach(error=>errors.push(`Level ${index+1}: ${error}`));});
   return errors;
 }
-export function normalizePack(input){
-  const errors=validatePack(input);
+export function normalizePack(input,{allowOcclusion=false}={}){
+  const errors=validatePack(input,{geometryOnly:allowOcclusion});
   if(errors.length)throw new Error(errors.slice(0,6).join('\n'));
   return {schemaVersion:1,id:input.id,title:input.title,provenance:String(input.provenance??'Imported custom pack').slice(0,500),rulesProfile:'classic-observed-v1',levels:input.levels.map(l=>({
     id:l.id,name:l.name,boardSize:5,provenance:String(l.provenance??'Custom level').slice(0,500),

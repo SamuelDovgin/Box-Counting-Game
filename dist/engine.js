@@ -1,10 +1,12 @@
-import {clone,correctAnswer,mirrorLevel,soloSummary,scoreMatch,levelSignature,duelSummary} from './core.js';
+import {clone,validateLevel,correctAnswer,mirrorLevel,soloSummary,scoreMatch,levelSignature,duelSummary} from './core.js';
 import {generateLevel,familyForLevel,difficultyAt} from './generator.js';
 import {generateRatedLevel} from './rated-generator.js';
+import {motionExposure} from './geometry.js';
 import {climbTier,validateClimb} from './difficulty.js';
 export class GameEngine {
   constructor(config,rules){
     this.config=clone(config);this.rules=rules;this.levels=clone(config.levels??[]);this.roundIndex=0;this.rounds=[];this.voided=0;
+    const errors=this.levels.flatMap(l=>validateLevel(l));if(errors.length)throw new Error(errors[0]);
     if(config.climb){validateClimb(config.climb);if(config.endless||!['auto','static','travel'].includes(config.ratedPresentation))throw new Error('Difficulty Climb needs a finite match and valid presentation.');}
     this.phase='idle';this.paused=false;this.phaseStartedAt=0;this.deadline=Infinity;this.answerOpenedAt=0;this.duelCache=null;
     if(config.duel){const d=config.duel;if(config.solo||!config.endless||!['time','points'].includes(d.rule)||!Number.isFinite(d.timeLeadMs)||d.timeLeadMs<1000||d.timeLeadMs>120000||!Number.isInteger(d.pointsLead)||d.pointsLead<1||d.pointsLead>20||!Number.isInteger(d.minRounds)||d.minRounds<1||d.minRounds>50||!Number.isInteger(d.maxRounds)||d.maxRounds<0||d.maxRounds>500||d.maxRounds>0&&d.maxRounds<d.minRounds)throw new Error('Choose a valid duel lead and a round cap at least as large as the minimum rounds.');}
@@ -17,6 +19,7 @@ export class GameEngine {
     if(!this.current){this.current=this.config.endless?generateLevel(this.config.seed,this.roundIndex,this.roundDifficulty(),this.config.family):clone(this.levels[this.roundIndex]);}
     if(this.config.previewMs)this.current.presentation.durationMs=this.config.previewMs;
     if(this.config.reducedMotion&&this.current.presentation.kind==='travel'){this.current.presentation={kind:'static',durationMs:Math.max(1000,this.current.presentation.durationMs)};this.assisted=true;}
+    if(this.current.presentation.kind==='travel'){const exposure=motionExposure(this.current);if(!exposure.valid){if(!Number.isFinite(exposure.minimumDurationMs))throw new Error('This travel path does not show every box.');this.current.presentation.durationMs=Math.max(300,exposure.minimumDurationMs);this.assisted=true;}}
     this.phaseTo('puzzleCountdown',this.roundIndex===0?3000:2000,now);
   }
   update(now){

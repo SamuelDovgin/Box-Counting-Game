@@ -4,7 +4,7 @@ export const travelOffset=(presentation,progress)=>{
   const t=Math.max(0,Math.min(1,progress));
   return {x:presentation.from.x+(presentation.to.x-presentation.from.x)*t,y:presentation.from.y+(presentation.to.y-presentation.from.y)*t};
 };
-const transform=p=>`translate(${p.x}px,${p.y}px)`;
+const transform=p=>`translate3d(${p.x}px,${p.y}px,0)`;
 export class GameScene {
   constructor(element,draw=gameSvg){this.element=element;this.html='';this.key='';this.animation=null;this.layer=null;this.drawSvg=draw;this.watch=null;}
   draw(engine,time,bindings,options={}){

@@ -64,3 +64,8 @@ Initial limits: 1 MB per imported file, 50 levels per pack, 99 objects per level
 ## Level acceptance
 
 Every included fixture must pass schema and semantic validation, render with distinguishable object boundaries, produce the correct entity count, reveal each entity once, and survive save-export-import round trips unchanged. Inspect the large-box, four-high tower, fast motion, and 24-box fixtures separately. A geometry-valid level is not automatically visually fair; manually audit the authored release pack and all generator templates.
+
+
+## Enforced visibility rule
+
+Every playable object must expose a complete camera-facing face under the actual render order. This now runs automatically in generation, imports, editor saves and tests, and at the engine boundary. Paths must also show each complete travelling box inside the common desktop/phone canvas for at least 80 ms. Existing unfair saved layouts are preserved for repair or export, with play disabled. See [visibility and motion verification](13-visibility-and-smooth-motion.md).

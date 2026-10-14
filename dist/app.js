@@ -54,7 +54,7 @@ function buildSetup(form){
     config.levels=clone(selected.levels);config.source='authored';config.label=selected.title;
     if(c.shuffle){const rng=seededRandom(config.seed);for(let i=config.levels.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[config.levels[i],config.levels[j]]=[config.levels[j],config.levels[i]];}}
   }else if(!config.endless){const count=c.mode==='quick'?5:c.mode==='full'?20:Number(c.rounds);if(!Number.isInteger(count)||count<1||count>50)throw new Error('Choose 1–50 rounds.');config.levels=generateLevels(config.seed,count,config.difficulty);}
-  checkControls(config);
+  const errors=config.levels.flatMap(l=>validateLevel(l));if(errors.length)throw new Error(errors[0]);checkControls(config);
 }
 function start(){
   if(!(ui.checked[0]&&ui.checked[1]&&(ui.config.solo||ui.checked[2]&&ui.checked[3])))return;
@@ -259,25 +259,26 @@ coarsePointer.addEventListener('change',()=>{detectControls();render();});
 
 const ratingCache=new WeakMap();
 function currentRating(){const l=engine?.current;if(!l)return null;if(!ratingCache.has(l))ratingCache.set(l,rateLevel(l));return ratingCache.get(l);}
+function setHidden(element,value){if(element.hidden!==value)element.hidden=value;}
 function render(time=now()){
-  stage.dataset.screen=screen;stage.dataset.phase=engine?.phase??'';document.body.classList.toggle('is-playing',['game','paused'].includes(screen));
+  if(stage.dataset.screen!==screen)stage.dataset.screen=screen;const phase=engine?.phase??'';if(stage.dataset.phase!==phase)stage.dataset.phase=phase;document.body.classList.toggle('is-playing',['game','paused'].includes(screen));
   document.body.classList.toggle('touch-ui',ui.touch);document.body.classList.toggle('is-touch-game',ui.touch&&['game','paused'].includes(screen));
   const title=ui.touch?'Box Counting — touch controls':'Box Counting — two players, one keyboard';if(document.title!==title)document.title=title;
   const shortcuts=document.querySelector('#footer-shortcuts'),shortcutText=ui.touch?'TOUCH / PAUSE':'ESC / PAUSE';if(shortcuts.textContent!==shortcutText)shortcuts.textContent=shortcutText;
   const viewBox=ui.touch&&['game','paused'].includes(screen)?'240 35 800 660':'0 0 1280 720';if(scene.getAttribute('viewBox')!==viewBox)scene.setAttribute('viewBox',viewBox);
-  nav.hidden=['game','paused','checks'].includes(screen);header.textContent=screen==='game'||screen==='paused'?`${engine.config.label.toUpperCase()} · ROUND ${engine.roundIndex+1}${engine.config.endless?'':` / ${engine.levels.length}`}${engine.assisted?' · ASSISTED':''}`:ui.touch?'TWO PLAYERS · TOUCH CONTROLS':'TWO PLAYERS · ONE KEYBOARD';
+  setHidden(nav,['game','paused','checks'].includes(screen));const headerText=screen==='game'||screen==='paused'?`${engine.config.label.toUpperCase()} · ROUND ${engine.roundIndex+1}${engine.config.endless?'':` / ${engine.levels.length}`}${engine.assisted?' · ASSISTED':''}`:ui.touch?'TWO PLAYERS · TOUCH CONTROLS':'TWO PLAYERS · ONE KEYBOARD';if(header.textContent!==headerText)header.textContent=headerText;
   const uiResult=renderUI(context());const overlayKey=uiResult.cls+uiResult.html;if(overlayKey!==lastOverlay){overlay.className=`overlay ${uiResult.cls}`;overlay.innerHTML=uiResult.html;lastOverlay=overlayKey;}
   if(screen==='game'||screen==='paused')sceneView.draw(engine,time,store.settings.bindings,{...store.settings,touch:ui.touch});
   else sceneView.update(`<rect width="1280" height="720" fill="#f7f7f7"/>${['menu','checks'].includes(screen)?`<g opacity=".17" transform="translate(310,20)">${boardSvg(pack?.levels[1]??{boxes:[],revealOrder:[]})}</g>`:''}`,null,time);
-  matchStatus.hidden=!(['game','paused'].includes(screen)&&(engine?.config.duel||engine?.config.climb));
+  setHidden(matchStatus,!(['game','paused'].includes(screen)&&(engine?.config.duel||engine?.config.climb)));
   if(!matchStatus.hidden&&engine.config.climb){const r=currentRating(),text=r?`Difficulty · Tier ${r.tier} · ${r.label} · ${r.score}/100`:'Difficulty climb · Get ready';if(matchStatus.textContent!==text)matchStatus.textContent=text;}
   else if(!matchStatus.hidden){const d=engine.duelStatus(),unit=d.rule==='points'?'points':'seconds',scores=d.rule==='points'?d.points: d.players.map(p=>(p.displayMs/1000).toFixed(2)),lead=d.rule==='points'?d.lead:(d.lead/1000).toFixed(2),target=d.rule==='points'?d.target:d.target/1000;const text=`P1 ${scores[0]} · P2 ${scores[1]} ${unit} | Lead ${lead} / ${target} | ${engine.rounds.length} / ${engine.config.duel.minRounds} minimum rounds${engine.config.duel.maxRounds?` | Cap ${engine.config.duel.maxRounds}`:''}`;if(matchStatus.textContent!==text)matchStatus.textContent=text;}
   const controls=screen==='game'?`${engine.phase==='answer'?`<div class="touch-player"><span>P1</span><button data-action="count" data-player="0" ${engine.submissions[0]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p1Count))}</kbd></button><button data-action="submit" data-player="0" ${engine.submissions[0]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p1Submit))}</kbd></button></div>${engine.config.solo?'':`<div class="touch-player p2"><span>P2</span><button data-action="count" data-player="1" ${engine.submissions[1]?'disabled':''}>+1 <kbd>${esc(keyName(store.settings.bindings.p2Count))}</kbd></button><button data-action="submit" data-player="1" ${engine.submissions[1]?'disabled':''}>Done <kbd>${esc(keyName(store.settings.bindings.p2Submit))}</kbd></button></div>`}`:''}<div class="game-options"><button data-action="pause">Pause · Esc</button>${engine.config.endless&&!engine.config.duel?'<button data-action="finish-practice">Finish practice</button>':''}</div>`:'';
-  playControls.hidden=ui.touch;if(controls!==lastControls){playControls.innerHTML=controls;lastControls=controls;}
+  setHidden(playControls,ui.touch);if(controls!==lastControls){playControls.innerHTML=controls;lastControls=controls;}
   renderPhoneControls(time);
 }
 function renderPhoneControls(time){
-  phonePanel.hidden=!ui.touch||screen!=='game';if(phonePanel.hidden)return;
+  setHidden(phonePanel,!ui.touch||screen!=='game');if(phonePanel.hidden)return;
   const phoneButton=(player,submit)=>`<button type="button" class="phone-action ${submit?'submit':'count'}" data-touch-action="${submit?'submit':'count'}" data-player="${player}" aria-label="Player ${player+1} ${submit?'submit answer':'count one box'}">${submit?'Submit':'Count +1'}</button>`;
   const solo=engine.config.solo;
   const pads=solo?`<div class="phone-solo-count">${phoneButton(0,false)}</div><div class="phone-solo-answer"><span>Your answer</span><output data-phone-count="0" aria-label="Your answer" aria-live="off">00</output><span data-phone-hint="0"></span></div><div class="phone-solo-submit">${phoneButton(0,true)}</div>`:[0,1].map(p=>`<div class="phone-pad p${p+1}"><span>Player ${p+1}</span><output data-phone-count="${p}" aria-label="Player ${p+1} answer" aria-live="off">00</output>${phoneButton(p,false)}${phoneButton(p,true)}<small data-phone-hint="${p}"></small></div>`).join('');

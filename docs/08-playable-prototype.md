@@ -78,7 +78,7 @@ Run:
 node --test tests/*.test.mjs
 ```
 
-All 43 tests pass, including 1,440 generated layouts across three difficulty presets and sixteen families, deterministic packs, a complete 20-round match, exact observed scoring, timeouts, locking, pause reserves, Endless termination, import/export, rendering bounds, corrupted-storage recovery, lead/cap/point rules, long-duel history, progressive campaigns, and retained geometry during travel. See [release QA](09-release-qa.md) for browser evidence and limits.
+All 51 tests pass, including 1,440 generated layouts across three difficulty presets and sixteen families, deterministic packs, a complete 20-round match, exact observed scoring, timeouts, locking, pause reserves, Endless termination, import/export, rendering bounds, corrupted-storage recovery, lead/cap/point rules, long-duel history, progressive campaigns, and retained geometry during travel. See [release QA](09-release-qa.md) for browser evidence and limits.
 
 ## Fidelity and later extensions
 
@@ -86,3 +86,6 @@ This is a complete local Box Counting release with the implemented modes and aut
 
 
 The latest expansion adds a batch Puzzle generator, six-factor 0–100 puzzle ratings, saved-level tier filtering, and a customizable ten-tier Difficulty Climb. See [generator, scoring, and verification](12-puzzle-generator-and-difficulty.md).
+
+
+Every playable box now requires a fully unobstructed face. Hidden layouts cannot be imported, saved or played; older saved copies stay available for repair or export. Native linear motion retains its board geometry during viewing. See [visibility and smooth motion](13-visibility-and-smooth-motion.md).

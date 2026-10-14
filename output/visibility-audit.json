@@ -1,0 +1,1879 @@
+{
+  "rule": "Every box has a complete unobstructed face and a readable canvas exposure",
+  "packs": [
+    {
+      "name": "reference-pack",
+      "levels": [
+        {
+          "id": "ref-01",
+          "count": 3,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b1",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-02",
+          "count": 6,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b6",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-03",
+          "count": 5,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b5",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-04",
+          "count": 5,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 266,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 0.3210819597069597,
+                "visibleMs": 385.2983516483516
+              },
+              {
+                "id": "b2",
+                "fraction": 0.32534844322344325,
+                "visibleMs": 390.4181318681319
+              },
+              {
+                "id": "b3",
+                "fraction": 0.32952380952380955,
+                "visibleMs": 395.42857142857144
+              },
+              {
+                "id": "b4",
+                "fraction": 0.3295238095238095,
+                "visibleMs": 395.4285714285714
+              },
+              {
+                "id": "b5",
+                "fraction": 0.3008031135531135,
+                "visibleMs": 360.9637362637362
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-05",
+          "count": 4,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-06",
+          "count": 7,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b7",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 814,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 0.27818635531135527,
+                "visibleMs": 333.8236263736263
+              },
+              {
+                "id": "b2",
+                "fraction": 0.21823443223443217,
+                "visibleMs": 261.8813186813186
+              },
+              {
+                "id": "b3",
+                "fraction": 0.15828250915750913,
+                "visibleMs": 189.93901098901097
+              },
+              {
+                "id": "b4",
+                "fraction": 0.09833058608058604,
+                "visibleMs": 117.99670329670325
+              },
+              {
+                "id": "b5",
+                "fraction": 0.20221245421245426,
+                "visibleMs": 242.6549450549451
+              },
+              {
+                "id": "b6",
+                "fraction": 0.26216437728937725,
+                "visibleMs": 314.5972527472527
+              },
+              {
+                "id": "b7",
+                "fraction": 0.26538690476190474,
+                "visibleMs": 318.46428571428567
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-07",
+          "count": 8,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b7",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b8",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b6",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b7",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b8",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-08",
+          "count": 3,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 100
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 100
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-09",
+          "count": 4,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 321,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 0.2536410256410257,
+                "visibleMs": 177.54871794871798
+              },
+              {
+                "id": "b2",
+                "fraction": 0.24937454212454208,
+                "visibleMs": 174.56217948717946
+              },
+              {
+                "id": "b3",
+                "fraction": 0.3008031135531135,
+                "visibleMs": 210.56217948717946
+              },
+              {
+                "id": "b4",
+                "fraction": 0.3295238095238095,
+                "visibleMs": 230.66666666666666
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-10",
+          "count": 24,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b11",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b7",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b12",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b15",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b8",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b16",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b20",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b9",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b10",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b13",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b17",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b21",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b14",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b18",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b22",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b19",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b23",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b24",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b6",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b7",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b8",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b9",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b10",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b11",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b12",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b13",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b14",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b15",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b16",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b17",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b18",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b19",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b20",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b21",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b22",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b23",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b24",
+                "fraction": 1,
+                "visibleMs": 250
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "video-pack",
+      "levels": [
+        {
+          "id": "video-official-1",
+          "count": 6,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b6",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "video-official-2",
+          "count": 5,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-01",
+          "count": 3,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b1",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-02",
+          "count": 6,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b6",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-03",
+          "count": 5,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b5",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-04",
+          "count": 5,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 266,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 0.3210819597069597,
+                "visibleMs": 385.2983516483516
+              },
+              {
+                "id": "b2",
+                "fraction": 0.32534844322344325,
+                "visibleMs": 390.4181318681319
+              },
+              {
+                "id": "b3",
+                "fraction": 0.32952380952380955,
+                "visibleMs": 395.42857142857144
+              },
+              {
+                "id": "b4",
+                "fraction": 0.3295238095238095,
+                "visibleMs": 395.4285714285714
+              },
+              {
+                "id": "b5",
+                "fraction": 0.3008031135531135,
+                "visibleMs": 360.9637362637362
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-05",
+          "count": 4,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-06",
+          "count": 7,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b7",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 814,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 0.27818635531135527,
+                "visibleMs": 333.8236263736263
+              },
+              {
+                "id": "b2",
+                "fraction": 0.21823443223443217,
+                "visibleMs": 261.8813186813186
+              },
+              {
+                "id": "b3",
+                "fraction": 0.15828250915750913,
+                "visibleMs": 189.93901098901097
+              },
+              {
+                "id": "b4",
+                "fraction": 0.09833058608058604,
+                "visibleMs": 117.99670329670325
+              },
+              {
+                "id": "b5",
+                "fraction": 0.20221245421245426,
+                "visibleMs": 242.6549450549451
+              },
+              {
+                "id": "b6",
+                "fraction": 0.26216437728937725,
+                "visibleMs": 314.5972527472527
+              },
+              {
+                "id": "b7",
+                "fraction": 0.26538690476190474,
+                "visibleMs": 318.46428571428567
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-07",
+          "count": 8,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b7",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b8",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b6",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b7",
+                "fraction": 1,
+                "visibleMs": 750
+              },
+              {
+                "id": "b8",
+                "fraction": 1,
+                "visibleMs": 750
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-08",
+          "count": 3,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 100
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 100
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-09",
+          "count": 4,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 3,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 321,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 0.2536410256410257,
+                "visibleMs": 177.54871794871798
+              },
+              {
+                "id": "b2",
+                "fraction": 0.24937454212454208,
+                "visibleMs": 174.56217948717946
+              },
+              {
+                "id": "b3",
+                "fraction": 0.3008031135531135,
+                "visibleMs": 210.56217948717946
+              },
+              {
+                "id": "b4",
+                "fraction": 0.3295238095238095,
+                "visibleMs": 230.66666666666666
+              }
+            ]
+          }
+        },
+        {
+          "id": "ref-10",
+          "count": 24,
+          "visibility": {
+            "valid": true,
+            "cyclic": false,
+            "boxes": [
+              {
+                "id": "b1",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b2",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b6",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b11",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b3",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b7",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b12",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b15",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b4",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b8",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b16",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b20",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b5",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b9",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b10",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b13",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b17",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b21",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b14",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b18",
+                "clearFaces": 1,
+                "visible": true
+              },
+              {
+                "id": "b22",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b19",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b23",
+                "clearFaces": 2,
+                "visible": true
+              },
+              {
+                "id": "b24",
+                "clearFaces": 3,
+                "visible": true
+              }
+            ],
+            "hidden": []
+          },
+          "exposure": {
+            "valid": true,
+            "minimumDurationMs": 80,
+            "boxes": [
+              {
+                "id": "b1",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b2",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b3",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b4",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b5",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b6",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b7",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b8",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b9",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b10",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b11",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b12",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b13",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b14",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b15",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b16",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b17",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b18",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b19",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b20",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b21",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b22",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b23",
+                "fraction": 1,
+                "visibleMs": 250
+              },
+              {
+                "id": "b24",
+                "fraction": 1,
+                "visibleMs": 250
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

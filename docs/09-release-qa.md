@@ -4,7 +4,7 @@ Checked 13 October 2026. This supplements the earlier prototype checks and recor
 
 ## Automated checks
 
-`node --test tests/*.test.mjs` passes **43 tests**. The suite checks the ten reference counts, the large-box/entity distinction, rotations and depth-preserving mirrors, the footage's 29.24 versus 53.34 scoring result, displayed-centisecond draws, a version-locked generator fixture, deterministic distinct packs, and 1,440 generated layouts across all sixteen families and three presets.
+`node --test tests/*.test.mjs` passes **51 tests**. The suite checks the ten reference counts, the large-box/entity distinction, rotations and depth-preserving mirrors, the footage's 29.24 versus 53.34 scoring result, displayed-centisecond draws, a version-locked generator fixture, deterministic distinct packs, and 1,440 generated layouts across all sixteen families and three presets.
 
 Engine checks cover countdown/preview input rejection, independent locks and timers, single settlement, deadlines, correct counters without submission still timing out, fresh generated replacements after pausing, settled-reveal recovery, Endless generation/finish, and a complete twenty-round match. Data checks cover unsupported/overlapping geometry, duplicate IDs, bounded sizes, normalized JSON round trips, rendering bounds, persisted packs, key conflicts, storage write failures, malformed history/drafts, and replayable saved geometry.
 
@@ -57,3 +57,6 @@ Added automatic phone detection, keyboard-free touch checks, persistent side con
 
 
 The latest expansion adds a batch Puzzle generator, six-factor 0–100 puzzle ratings, saved-level tier filtering, and a customizable ten-tier Difficulty Climb. See [generator, scoring, and verification](12-puzzle-generator-and-difficulty.md).
+
+
+Every playable box now requires a fully unobstructed face. Hidden layouts cannot be imported, saved or played; older saved copies stay available for repair or export. Native linear motion retains its board geometry during viewing. See [visibility and smooth motion](13-visibility-and-smooth-motion.md).

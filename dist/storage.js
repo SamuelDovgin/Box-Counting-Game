@@ -4,9 +4,9 @@ function readHistory(h){
   if(!h||typeof h.id!=='string'||h.id.length>80||!Array.isArray(h.rounds)||!h.rounds.length||h.rounds.length>50)return null;
   const rounds=[];
   for(const r of h.rounds){
-    if(!r||!Number.isInteger(r.answer)||validateLevel(r.level).length||r.answer!==r.level.boxes.length||!Array.isArray(r.players)||r.players.length!==2)return null;
+    if(!r||!Number.isInteger(r.answer)||validateLevel(r.level,{geometryOnly:true}).length||r.answer!==r.level.boxes.length||!Array.isArray(r.players)||r.players.length!==2)return null;
     if(!r.players.every(p=>p&&Number.isFinite(p.elapsedMs)&&p.elapsedMs>=0&&(p.guess===null||Number.isInteger(p.guess)&&p.guess>=0&&p.guess<=99)))return null;
-    rounds.push({round:Number.isInteger(r.round)&&r.round>0?r.round:rounds.length+1,levelId:r.level.id,level:normalizePack(makePack([r.level])).levels[0],answer:r.answer,players:r.players.map(p=>({guess:p.guess,elapsedMs:p.elapsedMs,timeout:p.timeout===true}))});
+    rounds.push({round:Number.isInteger(r.round)&&r.round>0?r.round:rounds.length+1,levelId:r.level.id,level:normalizePack(makePack([r.level]),{allowOcclusion:true}).levels[0],answer:r.answer,players:r.players.map(p=>({guess:p.guess,elapsedMs:p.elapsedMs,timeout:p.timeout===true}))});
   }
   const solo=h.solo===true,totalRounds=Number.isSafeInteger(h.totalRounds)&&h.totalRounds>=rounds.length?h.totalRounds:rounds.length;
   let summary=solo?soloSummary(rounds):scoreMatch(rounds);
@@ -34,10 +34,10 @@ export function loadStore(storage=globalThis.localStorage){
     const parsed=JSON.parse(raw);if(parsed.version!==1)throw new Error('Saved data version is unsupported.');
     const s=parsed.settings??{};
     defaults.settings={bindings:validBindings(s.bindings)?s.bindings:{...DEFAULT_BINDINGS},inputMode:['auto','touch','keyboard'].includes(s.inputMode)?s.inputMode:'auto',sound:typeof s.sound==='boolean'?s.sound:true,volume:Number.isFinite(s.volume)?Math.max(0,Math.min(1,s.volume)):0.25,highContrast:s.highContrast===true,reducedMotion:s.reducedMotion===true};
-    defaults.levels=Array.isArray(parsed.levels)?parsed.levels.filter(l=>!validateLevel(l).length).slice(0,100).map(l=>normalizePack(makePack([l])).levels[0]):[];
-    defaults.packs=Array.isArray(parsed.packs)?parsed.packs.slice(0,50).flatMap(p=>{try{return [normalizePack(p)];}catch{return [];}}):[];
+    defaults.levels=Array.isArray(parsed.levels)?parsed.levels.filter(l=>!validateLevel(l,{geometryOnly:true}).length).slice(0,100).map(l=>normalizePack(makePack([l]),{allowOcclusion:true}).levels[0]):[];
+    defaults.packs=Array.isArray(parsed.packs)?parsed.packs.slice(0,50).flatMap(p=>{try{return [normalizePack(p,{allowOcclusion:true})];}catch{return [];}}):[];
     defaults.history=Array.isArray(parsed.history)?parsed.history.slice(0,100).map(readHistory).filter(Boolean):[];
-    defaults.draft=parsed.draft&&!validateLevel(parsed.draft,{allowEmpty:true}).length?clone(parsed.draft):null;
+    defaults.draft=parsed.draft&&!validateLevel(parsed.draft,{allowEmpty:true,geometryOnly:true}).length?clone(parsed.draft):null;
     return {data:defaults,error:null};
   }catch(error){return {data:defaults,error:`Could not read saved data: ${error.message}`};}
 }
